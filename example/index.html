@@ -1,0 +1,44 @@
+<!doctype html>
+<html data-ng-app="segApp" data-ng-csp>
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="profile webapp">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        
+        <title> angular-7segments </title>
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    </head>
+  
+    <body>
+        <div class="container" data-ng-controller="indexCtrl">
+            <h3 class="page-header">
+                angular-7segments
+            </h3>
+            
+            Angular plugin for displaying 7segments
+            
+            
+            
+            <div seg-digit-group seg-length="8" seg-value="value">
+                
+            </div>
+            
+            <!--<div seg-digit seg-val="value"></div>-->
+            <input type="text" data-ng-model="value">
+        </div>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.js"></script>
+        <script src="scripts/angular-7segments.js"></script>
+        <script src="scripts/app.js"></script>
+        
+        <script>
+            var app = angular.module('segApp', ['wo.7segments'])
+            .controller('indexCtrl', function($scope){
+                $scope.value = 0;
+                $scope.arr = [];
+            });
+        </script>
+      
+  </body>
+</html>

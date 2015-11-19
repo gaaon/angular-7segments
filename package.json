@@ -1,0 +1,50 @@
+{
+  "name": "angular-7segments",
+  "version": "0.0.1",
+  "description": "Angular plugin for displaying 7segments",
+  "main": "angular-7segments.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "keywords": [],
+  "author": {},
+  "license": "MIT",
+  "devDependencies": {
+    "browser-sync": "^2.9.11",
+    "chai": "^3.4.0",
+    "chai-as-promised": "^5.1.0",
+    "gulp": "^3.9.0",
+    "gulp-angular-templatecache": "^1.8.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-copy": "0.0.2",
+    "gulp-header": "^1.7.1",
+    "gulp-htmlmin": "^1.2.0",
+    "gulp-insert": "^0.5.0",
+    "gulp-jshint": "^1.12.0",
+    "gulp-load-plugins": "^1.0.0",
+    "gulp-ng-annotate": "^1.1.0",
+    "gulp-ngdocs": "^0.2.13",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.4.2",
+    "gulp-util": "^3.0.7",
+    "gulp-webserver": "^0.9.1",
+    "gulp-wrap": "^0.11.0",
+    "jshint": "^2.8.0",
+    "karma": "^0.13.14",
+    "karma-chai": "^0.1.0",
+    "karma-chai-as-promised": "^0.1.2",
+    "karma-chai-dom": "^1.1.0",
+    "karma-chai-plugins": "^0.6.0",
+    "karma-chrome-launcher": "^0.2.1",
+    "karma-coverage": "^0.5.3",
+    "karma-mocha": "^0.2.0",
+    "karma-nyan-reporter": "^0.2.2",
+    "karma-phantomjs-launcher": "^0.2.1",
+    "karma-spec-reporter": "0.0.22",
+    "mocha": "^2.3.3",
+    "phantomjs": "^1.9.18"
+  },
+  "engines": {
+    "node": ">=0.12.7"
+  }
+}

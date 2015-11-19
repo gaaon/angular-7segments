@@ -1,0 +1,23 @@
+{
+  "name": "angular-7segments",
+  "version": "0.0.1",
+  "description": "Angular plugin for displaying 7segments",
+  "main": "angular-7segments.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.4.7"
+  },
+  "license": "MIT",
+  "moduleType": [
+    "globals"
+  ],
+  "devDependencies": {
+    "angular-mocks": "^1.4.7"
+  }
+}

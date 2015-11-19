@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+  - "4.2"
+
+sudo: false
+cache:
+  directories:
+    - node_modules
+    - bower_components
+    
+before_script:
+  - export PHANTOMJS_BIN=/usr/local/phantomjs/bin/phantomjs
+  - bower install
+  
+script: gulp test

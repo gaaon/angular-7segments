@@ -1,0 +1,38 @@
+<style>
+    .seven-seg-digit{
+        fill: #320000; 
+        overflow: hidden; 
+        stroke-width: 0; 
+        height: 100%; 
+        width: 100%; 
+        background-color: Black;
+    }
+    
+    .seven-seg-on{
+        fill: red;
+    }
+    
+</style>
+
+<svg class="seven-seg-digit" viewBox="0 0 57 80" version="1.1" xmlns="http://www.w3.org/2000/svg" 
+    xmlns:xlink="http://www.w3.org/1999/xlink" focusable="false">
+    
+    <defs>
+        <polyline id="h-part" points="11 0, 37 0, 42 5, 37 10, 11 10, 6 5"></polyline>
+        <polyline id="v-part" points="0 11, 5 6, 10 11, 10 34, 5 39, 0 34"></polyline>
+    </defs>
+    
+    <g class="seven-seg-group">
+        <use xlink:href="#h-part" x="0" y="0" data-ng-class="segClass[0]"></use>
+        <use xlink:href="#v-part" x="-48" y="0" transform="scale(-1,1)" data-ng-class="segClass[1]"></use>
+        <use xlink:href="#v-part" x="-48" y="-80" transform="scale(-1,-1)" data-ng-class="segClass[2]"></use>
+        <use xlink:href="#h-part" x="0" y="70" data-ng-class="segClass[3]"></use>
+        <use xlink:href="#v-part" x="0" y="-80" transform="scale(1,-1)"  data-ng-class="segClass[4]"></use>
+        <use xlink:href="#v-part" x="0" y="0"  data-ng-class="segClass[5]"></use>
+        <use xlink:href="#h-part" x="0" y="35"  data-ng-class="segClass[6]"></use>
+    </g>
+    
+    <circle cx="52" cy="75" r="5"  data-ng-class="segClass[7]"></circle>
+</svg>
+
+

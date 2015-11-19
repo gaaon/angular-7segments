@@ -1,5 +1,6 @@
 /*global
-    angular: true
+    angular: true,
+    minErr: true
 */
 
 /**
@@ -9,43 +10,25 @@
  * @strict 'E'
  * 
  */
- 
-function segDigitGroupDirective(segMap, $interval){ /*jshint ignore:line*/
+
+var segGroupMinErr = minErr('segGroup');
+
+function segDigitGroupDirective(segUtil){ /*jshint ignore:line*/
     var directiveDefinitionObject = {
         strict: 'E',
+        require: '^ngModel',
         scope: {
             'segLength': '=',
-            'segValue': '='
+            'segArr': '=ngModel'
         },
         templateUrl: 'group.html',
         link: function(scope, el, attr) {
-            var length = scope.segLength || scope.segValue.length;
+            var length = scope.segLength || scope.segArr.length;
             
-            function change(str) {
-                
-                str = str+'';
-                for(var i = 0 ; i < length ; i++) {
-                    scope.digits[i] = segMap[str[i]];
-                }
-            }
+            scope.digits = segUtil.convertArrToSeg(scope.segArr, length);
             
-            
-            $interval(function(){
-                var a = new Date();
-                
-                var hour = a.getHours();
-                var min = a.getMinutes();
-                var sec = a.getSeconds();
-                
-                
-                scope.segValue = hour + '-' + (min<10?'0':'') + min + '-'+(sec<10?'0':'')+sec;
-                console.log(scope.segValue);
-            }, 1000);
-            
-            scope.digits = new Array(length);
-            
-            scope.$watch('segValue', function(val) {
-                change(val);
+            scope.$watchCollection('segArr', function(arr){
+                scope.digits = segUtil.convertArrToSeg(arr, length);
             });
         }
     };

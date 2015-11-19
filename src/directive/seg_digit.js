@@ -17,6 +17,8 @@ function segDigitDirective(){ /*jshint ignore:line*/
             
             function change(val, oldVal) {
                 var pos = 1;
+                val = val || 0;
+                
                 var xor = oldVal == void 0 ? val : (val ^ oldVal);
                 
                 for(var i = 0 ; i < 8 ; pos = pos << 1, i++) {

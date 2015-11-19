@@ -48,9 +48,11 @@ module.exports = function(config) {
 
 
     // web server port
-    port: process.env.PORT, // replace with your port
+    port: process.env.PORT || 9876, // replace with your port
 
-
+    hostname: process.env.IP || 'localhost',
+    
+    
     // enable / disable colors in the output (reporters and logs)
     colors: true,
 

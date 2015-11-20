@@ -5,9 +5,10 @@
 var segUtilMinErr = minErr('segutil');
 
 function segUtil(segMap) { /*jshint ignore:line*/
-    this.convertArrToSeg = function(arr, length) {
+
+    this.arrToSegGroup = function(arr, length) {
         if( !angular.isArray(arr) && !angular.isString(arr) ) {
-            throw new segUtilMinErr('badarrtype', 'The type is not supported.');
+            throw new segUtilMinErr('badarrtype', 'The type \'{0}\' is not supported.', (typeof arr));
         }
         var newArr = new Array(length);
         var cnt = 0;
@@ -29,7 +30,7 @@ function segUtil(segMap) { /*jshint ignore:line*/
             }
             
             else {
-                throw new segUtilMinErr('baditemtype', 'The type is not supported.');
+                throw new segUtilMinErr('baditemtype', 'The type \'{0}\' is not supported.', (typeof item));
             }
             
             if( arr[i+1] === '.' || arr[i+1] == segMap['.']) {
@@ -42,4 +43,18 @@ function segUtil(segMap) { /*jshint ignore:line*/
         
         return (new Array(length-cnt)).concat(newArr);
     };
+    
+    this.arrToSegNum = function(arr) {
+        if( !angular.isArray(arr) && !angular.isString(arr) ) {
+            throw new segUtilMinErr('badarrtype', 'The type \'{0}\' is not supported.', (typeof arr));
+        }
+        
+        var pos = 1, ret = 0;
+        
+        for(var i = 0, len = 8 ; i < len ; pos<<=1, i++) {
+            if( !!arr[i] && arr[i] != '0') ret += pos;
+        }
+        
+        return ret;
+    }
 }

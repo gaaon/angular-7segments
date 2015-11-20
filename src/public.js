@@ -15,5 +15,5 @@
 var app = angular.module('wo.7segments', []) /*jshint ignore:line*/
 .directive('segDigit', segDigitDirective)
 .directive('segDigitGroup', segDigitGroupDirective)
-.constant('segMap', segMap)
+.value('segMap', segMap)
 .service('segUtil', segUtil);

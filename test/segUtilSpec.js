@@ -91,4 +91,22 @@ describe('segUtil', function(){
             }
         });
     });
+    
+    
+    context('segNumToArr', function() {
+        it('should return correct results according to arguments.', function() {
+            for(var i = 0 ; i < 256 ; i++) {
+                
+                var expected = [], actual = [];
+                segUtil.segNumToArr(expected, i);
+                
+                var copy = i;
+                for(var j = 0 ; copy ; copy = (copy/2) | 0, j++ ) {
+                    if( copy%2 ) actual[j] = true;
+                }
+                
+                expect(expected).to.deep.equal(actual);
+            }
+        });
+    });
 });

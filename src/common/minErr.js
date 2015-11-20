@@ -139,5 +139,3 @@ function minErr(module, ErrorConstructor) { /*jshint ignore:line */
     return new ErrorConstructor(message);
   };
 }
-
-var segErr = minErr('$segment');

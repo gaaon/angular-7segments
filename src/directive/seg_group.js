@@ -1,5 +1,4 @@
 /*global
-    angular: true,
     minErr: true
 */
 
@@ -11,7 +10,7 @@
  * 
  */
 
-var segGroupMinErr = minErr('segGroup');
+var segGroupMinErr = minErr('segGroup'); /*jshint ignore:line*/
 
 function segDigitGroupDirective(segUtil){ /*jshint ignore:line*/
     var directiveDefinitionObject = {
@@ -22,13 +21,13 @@ function segDigitGroupDirective(segUtil){ /*jshint ignore:line*/
             'segArr': '=ngModel'
         },
         templateUrl: 'group.html',
-        link: function(scope, el, attr) {
+        link: function(scope) {
             var length = scope.segLength || scope.segArr.length;
             
-            scope.digits = segUtil.convertArrToSeg(scope.segArr, length);
+            scope.digits = segUtil.arrToSegGroup(scope.segArr, length);
             
             scope.$watchCollection('segArr', function(arr){
-                scope.digits = segUtil.convertArrToSeg(arr, length);
+                scope.digits = segUtil.arrToSegGroup(arr, length);
             });
         }
     };

@@ -154,7 +154,7 @@ gulp.task('watch:example', ['browserSync:init'], function() {
 });
 
 
-gulp.task('test', ['build'], function (done) {
+gulp.task('test', ['build', 'lint'], function (done) {
     new karma({
         configFile: __dirname + '/karma.conf.js',
         browsers: ['PhantomJS'],
@@ -190,6 +190,6 @@ gulp.task('watch:source', ['lint-nofail', 'build'], function(){
 
 gulp.task('build', ['header:source', 'uglify:source']);
 
-gulp.task('default', ['build', 'test', 'lint']);
+gulp.task('default', ['build', 'test']);
 
 gulp.task('ngdocs', ['build:ngdocs', 'watch:ngdocs', 'webserver:ngdocs']);

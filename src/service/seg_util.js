@@ -10,7 +10,8 @@ function segUtil(segMap) { /*jshint ignore:line*/
         if( !angular.isArray(arr) && !angular.isString(arr) ) {
             throw new segUtilMinErr('badarrtype', 'The type \'{0}\' is not supported.', (typeof arr));
         }
-        var newArr = new Array(length);
+        
+        var newArr = [];
         var cnt = 0;
         
         for(var i = 0, len = arr.length ; i < len && cnt < length ; cnt++, i++) {
@@ -39,8 +40,6 @@ function segUtil(segMap) { /*jshint ignore:line*/
             }
         }
         
-        newArr.splice(cnt);
-        
         return (new Array(length-cnt)).concat(newArr);
     };
     
@@ -56,5 +55,18 @@ function segUtil(segMap) { /*jshint ignore:line*/
         }
         
         return ret;
-    }
+    };
+    
+    this.segNumToArr = function(ctx, val, oldVal) {
+        var pos = 1;
+        val = val || 0;
+        
+        var xor = oldVal == void 0 ? val : (val ^ oldVal);
+        
+        for(var i = 0 ; i < 8 ; pos <<= 1, i++) {
+            if( pos & xor ) {
+                ctx[i] = !!(pos & val);
+            }
+        }
+    };
 }

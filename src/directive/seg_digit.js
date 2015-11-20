@@ -6,31 +6,20 @@
  * 
  */
  
-function segDigitDirective(){ /*jshint ignore:line*/
+function segDigitDirective(segUtil){ /*jshint ignore:line*/
     var directiveDefinitionObject = {
         strict: 'E',
+        require: '^ngModel',
         scope: {
-            'segVal': '=',
+            'segVal': '=ngModel',
         },
         templateUrl: 'digit.html',
-        link: function(scope, el, attr) {
-            
-            function change(val, oldVal) {
-                var pos = 1;
-                val = val || 0;
-                
-                var xor = oldVal == void 0 ? val : (val ^ oldVal);
-                
-                for(var i = 0 ; i < 8 ; pos = pos << 1, i++) {
-                    if( pos & xor ) {
-                        scope.segClass[i] = (pos & val) ? on : off;
-                    }
-                }
-            }
-            
-            var on = 'seven-seg-on', off = '';
-            
+        link: function(scope, el, attr, ngModelCtrl) { /*jshint ignore:line*/
             scope.segClass = [];
+            
+            scope.className = [];
+            
+            var change = segUtil.segNumToArr.bind(null, scope.segClass);
             
             scope.$watch('segVal', change);
             

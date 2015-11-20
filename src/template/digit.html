@@ -23,16 +23,32 @@
     </defs>
     
     <g class="seven-seg-group">
-        <use xlink:href="#h-part" x="0" y="0" data-ng-class="segClass[0]"></use>
-        <use xlink:href="#v-part" x="-48" y="0" transform="scale(-1,1)" data-ng-class="segClass[1]"></use>
-        <use xlink:href="#v-part" x="-48" y="-80" transform="scale(-1,-1)" data-ng-class="segClass[2]"></use>
-        <use xlink:href="#h-part" x="0" y="70" data-ng-class="segClass[3]"></use>
-        <use xlink:href="#v-part" x="0" y="-80" transform="scale(1,-1)"  data-ng-class="segClass[4]"></use>
-        <use xlink:href="#v-part" x="0" y="0"  data-ng-class="segClass[5]"></use>
-        <use xlink:href="#h-part" x="0" y="35"  data-ng-class="segClass[6]"></use>
+        <use xlink:href="#h-part" x="0" y="0" 
+            data-ng-class="segClass[0] && (className[0] || 'seven-seg-on')"></use>
+        
+        <use xlink:href="#v-part" x="-48" y="0" transform="scale(-1,1)" 
+            data-ng-class="segClass[1] && (className[1] || 'seven-seg-on')"></use>
+        
+        <use xlink:href="#v-part" x="-48" y="-80" transform="scale(-1,-1)" 
+            data-ng-class="segClass[2] && (className[2] || 'seven-seg-on')"></use>
+        
+        <use xlink:href="#h-part" x="0" y="70" 
+            data-ng-class="segClass[3] && (className[3] || 'seven-seg-on')"></use>
+        
+        <use xlink:href="#v-part" x="0" y="-80" transform="scale(1,-1)"  
+            data-ng-class="segClass[4] && (className[4] || 'seven-seg-on')"></use>
+        
+        <use xlink:href="#v-part" x="0" y="0"  
+            data-ng-class="segClass[5] && (className[5] || 'seven-seg-on')"></use>
+        
+        <use xlink:href="#h-part" x="0" y="35"  
+            data-ng-class="segClass[6] && (className[6] || 'seven-seg-on')"></use>
+            
+        
+        <circle cx="52" cy="75" r="5"  
+            data-ng-class="segClass[7] && (className[7] || 'seven-seg-on')"></circle>
     </g>
     
-    <circle cx="52" cy="75" r="5"  data-ng-class="segClass[7]"></circle>
 </svg>
 
 

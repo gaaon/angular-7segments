@@ -93,7 +93,7 @@ describe('segUtil', function(){
     });
     
     
-    context('segNumToArr', function() {
+    context('#segNumToArr', function() {
         it('should return correct results according to arguments.', function() {
             for(var i = 0 ; i < 256 ; i++) {
                 

@@ -169,31 +169,20 @@ function segDigitDirective(segUtil){ /*jshint ignore:line*/
         require: '^ngModel',
         scope: {
             'segVal': '=ngModel',
-            'onNames': '='
+            'segDigitOptions': '='
         },
         templateUrl: 'digit.html',
         link: function(scope, el, attr, ngModelCtrl) { /*jshint ignore:line*/
-            scope.defaultOnName = scope.defaultOnName || 'seven-seg-on';
+            scope.opt = scope.segDigitOptions || (scope.segDigitOptions = {});
+            
+            scope.opt.onName = scope.opt.onName || 'seven-seg-on';
+            scope.opt.digitName = scope.opt.digitName || 'seven-seg-digit';
         }
     };
     
     return directiveDefinitionObject;
 }
 segDigitDirective.$inject = ["segUtil"];
-
-
-function segDigitBindOnceDirective(segUtil){
-    var directiveDefinitionObject = {
-        strict: 'E',
-        scope: {
-            'segVal': '@'
-        },
-        templateUrl: 'digit.html'
-    };
-    
-    return directiveDefinitionObject;
-}
-segDigitBindOnceDirective.$inject = ["segUtil"];
 
 
 /*global
@@ -219,10 +208,13 @@ function segDigitGroupDirective(segUtil){ /*jshint ignore:line*/
             'segArr': '=ngModel',
         },
         templateUrl: 'group.html',
-        link: function(scope, el, attr) {
+        link: function(scope) {
             function changeArr(arr, opt) {
-                scope.digits = segUtil.arrToSegGroup(arr, opt.size);
-                scope.emptyArr = new Array(opt.size === void 0 ? 0 : opt.size - scope.digits.length); 
+                try {
+                    scope.digits = segUtil.arrToSegGroup(arr, opt);
+                } catch(e) {
+                    scope.digits = [];
+                }
             }
             
             var opt = scope.segOptions || (scope.segOptions = {});
@@ -243,7 +235,7 @@ function segDigitGroupDirective(segUtil){ /*jshint ignore:line*/
             
             if( !!scope.segOptions.watch ) {
                 scope.$watchCollection('segOptions', function(opt){
-                    changeArr(scope.digits, opt);
+                    changeArr(scope.segArr, opt);
                 });
             }
         }
@@ -296,15 +288,19 @@ function segUtil(segMap) { /*jshint ignore:line*/
     };
     
     
-    this.arrToSegGroup = function(arr, size) {
+    this.arrToSegGroup = function(arr, opt) {
         if( !angular.isArray(arr) && !angular.isString(arr) ) {
             throw new segUtilMinErr('badarrtype', 'The type \'{0}\' is not supported.', (typeof arr));
         }
+        
+        if( opt.size < 0 ) {
+            throw new segUtilMinErr('badsize', 'The size \'{0}\' cannot be negative.', opt.size);
+        }
+        
         var newArr = [], cnt = 0;
-        size || (size = arr.length);
+        var size = opt.size === void 0 ? arr.length : opt.size, i = 0;
         
-        
-        for(var i = 0, len = arr.length ; i < len && cnt < size; cnt++, i++) {
+        for(var len = arr.length ; i < len && cnt < size; cnt++, i++) {
             var item = arr[i] || 0;
             
             if( that.isDot(item) ){ // when item is dot
@@ -326,8 +322,12 @@ function segUtil(segMap) { /*jshint ignore:line*/
                 throw new segUtilMinErr('baditemtype', 'The type \'{0}\' is not supported.', (typeof item));
             }
         }
+        if( that.isDot(arr[i]) ) newArr[cnt-1] |= segMap['.'];
         
-        return newArr;
+        size = opt.size === void 0 ? cnt : opt.size;
+        
+        if(opt.align === void 0 || opt.align === 'left') return (new Array(size-cnt)).concat(newArr);
+        else return newArr.concat(new Array(size-cnt));
     };
     
     this.arrToSegNum = function(arr) {
@@ -366,7 +366,6 @@ segUtil.$inject = ["segMap"];
 /* global
     angular: true,
     segDigitDirective: true,
-    segDigitBindOnceDirective: true,
     segDigitGroupDirective: true,
     segMap: true,
     segUtil: true,
@@ -381,7 +380,6 @@ segUtil.$inject = ["segMap"];
  */
 var app = angular.module('wo.7segments', []) /*jshint ignore:line*/
 .directive('segDigit', segDigitDirective)
-.directive('segDigitOnce', segDigitBindOnceDirective)
 .directive('segGroup', segDigitGroupDirective)
 .value('segMap', segMap)
 .service('segUtil', segUtil)
@@ -399,7 +397,7 @@ var app = angular.module('wo.7segments', []) /*jshint ignore:line*/
 
 
 /*global angular*/
-angular.module("wo.7segments").run(["$templateCache", function($templateCache) {$templateCache.put("digit.html","<svg class=\"seven-seg-digit\" viewBox=\"0 0 57 80\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" focusable=\"false\"> <defs> <polyline id=\"h-part\" points=\"11 0, 37 0, 42 5, 37 10, 11 10, 6 5\"></polyline> <polyline id=\"v-part\" points=\"0 11, 5 6, 10 11, 10 34, 5 39, 0 34\"></polyline> </defs> <g class=\"seven-seg-group\"> <use xlink:href=\"#h-part\" x=\"0\" y=\"0\" data-ng-class=\"(segVal | bitAnd : 1) && (onNames[0] || defaultOnName)\"></use> <use xlink:href=\"#v-part\" x=\"-48\" y=\"0\" transform=\"scale(-1,1)\" data-ng-class=\"(segVal | bitAnd : 2)  && (onNames[1] || defaultOnName)\"></use> <use xlink:href=\"#v-part\" x=\"-48\" y=\"-80\" transform=\"scale(-1,-1)\" data-ng-class=\"(segVal | bitAnd : 4) && (onNames[2] || defaultOnName)\"></use> <use xlink:href=\"#h-part\" x=\"0\" y=\"70\" data-ng-class=\"(segVal | bitAnd : 8) && (onNames[3] || defaultOnName)\"></use> <use xlink:href=\"#v-part\" x=\"0\" y=\"-80\" transform=\"scale(1,-1)\" data-ng-class=\"(segVal | bitAnd : 16) && (onNames[4] || defaultOnName)\"></use> <use xlink:href=\"#v-part\" x=\"0\" y=\"0\" data-ng-class=\"(segVal | bitAnd : 32) && (onNames[5] || defaultOnName)\"></use> <use xlink:href=\"#h-part\" x=\"0\" y=\"35\" data-ng-class=\"(segVal | bitAnd : 64) && (onNames[6] || defaultOnName)\"></use> <circle cx=\"52\" cy=\"75\" r=\"5\" data-ng-class=\"(segVal | bitAnd : 128) && (onNames[7] || defaultOnName)\"></circle> </g> </svg>");
-$templateCache.put("group.html","<div data-ng-if=\"!segOptions.align\" class=\"seven-seg-digit-wrapper\" data-ng-style=\"wrapperStyle\" data-ng-repeat=\"i in emptyArr track by $index\" seg-digit-once seg-val=\"0\"></div><div class=\"seven-seg-digit-wrapper\" data-ng-style=\"wrapperStyle\" data-ng-repeat=\"dig in digits track by $index\" seg-digit data-ng-model=\"dig\"></div><div data-ng-if=\"segOptions.align\" class=\"seven-seg-digit-wrapper\" data-ng-style=\"wrapperStyle\" data-ng-repeat=\"i in emptyArr track by $index\" seg-digit-once seg-val=\"0\"></div>");}]);
+angular.module("wo.7segments").run(["$templateCache", function($templateCache) {$templateCache.put("digit.html","<svg data-ng-class=\"opt.digitName\" viewBox=\"0 0 57 80\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" focusable=\"false\"> <defs> <polyline id=\"h-part\" points=\"11 0, 37 0, 42 5, 37 10, 11 10, 6 5\"></polyline> <polyline id=\"v-part\" points=\"0 11, 5 6, 10 11, 10 34, 5 39, 0 34\"></polyline> </defs> <g class=\"seven-seg-group\"> <use xlink:href=\"#h-part\" x=\"0\" y=\"0\" data-ng-class=\"(segVal | bitAnd : 1) && opt.onName\"></use> <use xlink:href=\"#v-part\" x=\"-48\" y=\"0\" transform=\"scale(-1,1)\" data-ng-class=\"(segVal | bitAnd : 2)  && opt.onName\"></use> <use xlink:href=\"#v-part\" x=\"-48\" y=\"-80\" transform=\"scale(-1,-1)\" data-ng-class=\"(segVal | bitAnd : 4) && opt.onName\"></use> <use xlink:href=\"#h-part\" x=\"0\" y=\"70\" data-ng-class=\"(segVal | bitAnd : 8) && opt.onName\"></use> <use xlink:href=\"#v-part\" x=\"0\" y=\"-80\" transform=\"scale(1,-1)\" data-ng-class=\"(segVal | bitAnd : 16) && opt.onName\"></use> <use xlink:href=\"#v-part\" x=\"0\" y=\"0\" data-ng-class=\"(segVal | bitAnd : 32) && opt.onName\"></use> <use xlink:href=\"#h-part\" x=\"0\" y=\"35\" data-ng-class=\"(segVal | bitAnd : 64) && opt.onName\"></use> <circle cx=\"52\" cy=\"75\" r=\"5\" data-ng-class=\"(segVal | bitAnd : 128) && opt.onName\"></circle> </g> </svg>");
+$templateCache.put("group.html","<div class=\"seven-seg-digit-wrapper\" data-ng-style=\"wrapperStyle\" data-ng-repeat=\"dig in digits track by $index\" seg-digit data-ng-model=\"dig\"></div>");}]);
 
 })(window, window.angular);

@@ -41,12 +41,12 @@ describe('segUtil', function(){
         it('should return correct results.', function() {
             var expected = ['1234567890-. ', [6, 91, 79, 102, 109, 125, 39, 127, 111, 63, 64, 128, 0]];
             
-            var actual = [6, 91, 79, 102, 109, 125, 39, 127, 111, 63, 192, 0];
+            var actual = [undefined, undefined, undefined, 6, 91, 79, 102, 109, 125, 39, 127, 111, 63, 192, 0];
             
             for(var i = 0 ; i < expected.length ; i++) {
                 var item = expected[i];
                 
-                var result = segUtil.arrToSegGroup(item, 15);
+                var result = segUtil.arrToSegGroup(item, {size: 15});
                 
                 for(var j = 0 ; j < result.length ; j++) {
                     expect(result[j]).to.equal(actual[j]);
@@ -62,7 +62,7 @@ describe('segUtil', function(){
             
             var actual = []; for(var i = 0 ; i < 10 ; i++) actual.push(128);
             
-            expect(segUtil.arrToSegGroup(str, 10)).to.deep.equal(actual);
+            expect(segUtil.arrToSegGroup(str, {size: 10})).to.deep.equal(actual);
         });
     });
     

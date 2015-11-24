@@ -12,15 +12,19 @@ function segUtil(segMap) { /*jshint ignore:line*/
     };
     
     
-    this.arrToSegGroup = function(arr, size) {
+    this.arrToSegGroup = function(arr, opt) {
         if( !angular.isArray(arr) && !angular.isString(arr) ) {
             throw new segUtilMinErr('badarrtype', 'The type \'{0}\' is not supported.', (typeof arr));
         }
+        
+        if( opt.size < 0 ) {
+            throw new segUtilMinErr('badsize', 'The size \'{0}\' cannot be negative.', opt.size);
+        }
+        
         var newArr = [], cnt = 0;
-        size || (size = arr.length);
+        var size = opt.size === void 0 ? arr.length : opt.size, i = 0;
         
-        
-        for(var i = 0, len = arr.length ; i < len && cnt < size; cnt++, i++) {
+        for(var len = arr.length ; i < len && cnt < size; cnt++, i++) {
             var item = arr[i] || 0;
             
             if( that.isDot(item) ){ // when item is dot
@@ -42,8 +46,12 @@ function segUtil(segMap) { /*jshint ignore:line*/
                 throw new segUtilMinErr('baditemtype', 'The type \'{0}\' is not supported.', (typeof item));
             }
         }
+        if( that.isDot(arr[i]) ) newArr[cnt-1] |= segMap['.'];
         
-        return newArr;
+        size = opt.size === void 0 ? cnt : opt.size;
+        
+        if(opt.align === void 0 || opt.align === 'left') return (new Array(size-cnt)).concat(newArr);
+        else return newArr.concat(new Array(size-cnt));
     };
     
     this.arrToSegNum = function(arr) {

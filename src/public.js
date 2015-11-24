@@ -1,7 +1,6 @@
 /* global
     angular: true,
     segDigitDirective: true,
-    segDigitBindOnceDirective: true,
     segDigitGroupDirective: true,
     segMap: true,
     segUtil: true,
@@ -16,7 +15,6 @@
  */
 var app = angular.module('wo.7segments', []) /*jshint ignore:line*/
 .directive('segDigit', segDigitDirective)
-.directive('segDigitOnce', segDigitBindOnceDirective)
 .directive('segGroup', segDigitGroupDirective)
 .value('segMap', segMap)
 .service('segUtil', segUtil)

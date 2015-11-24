@@ -21,10 +21,13 @@ function segDigitGroupDirective(segUtil){ /*jshint ignore:line*/
             'segArr': '=ngModel',
         },
         templateUrl: 'group.html',
-        link: function(scope, el, attr) {
+        link: function(scope) {
             function changeArr(arr, opt) {
-                scope.digits = segUtil.arrToSegGroup(arr, opt.size);
-                scope.emptyArr = new Array(opt.size === void 0 ? 0 : opt.size - scope.digits.length); 
+                try {
+                    scope.digits = segUtil.arrToSegGroup(arr, opt);
+                } catch(e) {
+                    scope.digits = [];
+                }
             }
             
             var opt = scope.segOptions || (scope.segOptions = {});
@@ -45,7 +48,7 @@ function segDigitGroupDirective(segUtil){ /*jshint ignore:line*/
             
             if( !!scope.segOptions.watch ) {
                 scope.$watchCollection('segOptions', function(opt){
-                    changeArr(scope.digits, opt);
+                    changeArr(scope.segArr, opt);
                 });
             }
         }

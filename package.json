@@ -6,8 +6,24 @@
   "scripts": {
     "test": "gulp test"
   },
-  "keywords": [],
-  "author": {},
+  "keywords": [
+    "7-segment",
+    "seven-segment",
+    "angular",
+    "framework",
+    "plugin",
+    "front-end",
+    "7segment",
+    "7segments"
+  ],
+  "author": {
+    "name": "Taewoo Kim",
+    "email": "xodn4195@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wooooo/angular-g-recaptcha.git"
+  },
   "license": "MIT",
   "devDependencies": {
     "browser-sync": "^2.9.11",

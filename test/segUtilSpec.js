@@ -41,7 +41,7 @@ describe('segUtil', function(){
         it('should return correct results.', function() {
             var expected = ['1234567890-. ', [6, 91, 79, 102, 109, 125, 39, 127, 111, 63, 64, 128, 0]];
             
-            var actual = [undefined, undefined, undefined, 6, 91, 79, 102, 109, 125, 39, 127, 111, 63, 192, 0];
+            var actual = [6, 91, 79, 102, 109, 125, 39, 127, 111, 63, 192, 0];
             
             for(var i = 0 ; i < expected.length ; i++) {
                 var item = expected[i];
@@ -97,8 +97,8 @@ describe('segUtil', function(){
         it('should return correct results according to arguments.', function() {
             for(var i = 0 ; i < 256 ; i++) {
                 
-                var expected = [], actual = [];
-                segUtil.segNumToArr(expected, i);
+                var expected = segUtil.segNumToArr(i), actual = [];
+                
                 
                 var copy = i;
                 for(var j = 0 ; copy ; copy = (copy/2) | 0, j++ ) {

@@ -17,18 +17,37 @@ function segDigitGroupDirective(segUtil){ /*jshint ignore:line*/
         strict: 'E',
         require: '^ngModel',
         scope: {
-            'segLength': '=',
-            'segArr': '=ngModel'
+            'segOptions': '=',
+            'segArr': '=ngModel',
         },
         templateUrl: 'group.html',
-        link: function(scope) {
-            var length = scope.segLength || scope.segArr.length;
+        link: function(scope, el, attr) {
+            function changeArr(arr, opt) {
+                scope.digits = segUtil.arrToSegGroup(arr, opt.size);
+                scope.emptyArr = new Array(opt.size === void 0 ? 0 : opt.size - scope.digits.length); 
+            }
             
-            scope.digits = segUtil.arrToSegGroup(scope.segArr, length);
+            var opt = scope.segOptions || (scope.segOptions = {});
             
-            scope.$watchCollection('segArr', function(arr){
-                scope.digits = segUtil.arrToSegGroup(arr, length);
+            changeArr(scope.segArr, opt);
+            
+            scope.wrapperStyle = {
+                width: (opt.width || 75)+'px',
+                height: (opt.height || 150)+'px'
+            };
+            
+            
+            scope.$watch('segArr', function(arr){
+                changeArr(arr, opt);
             });
+            
+            
+            
+            if( !!scope.segOptions.watch ) {
+                scope.$watchCollection('segOptions', function(opt){
+                    changeArr(scope.digits, opt);
+                });
+            }
         }
     };
     

@@ -48,7 +48,7 @@ describe('segDigit directive', function(){
             var g = el.children().children().eq(1);
             expect(g.children().length).to.equal(8);
             
-            var arr = []; segUtil.segNumToArr(arr, $scope.value);
+            var arr = segUtil.segNumToArr($scope.value);
             for(var i = 0, len = g.children().length ; i < len ; i++) {
                 var elem = angular.element(g.children()[i]);
                 
@@ -64,32 +64,26 @@ describe('segDigit directive', function(){
     
     it('should detect change of ngModel.', function(){
         var $scope = $rootScope.$new();
-            
-        $scope.value = 50;
+        
+        $scope.value = 0;
         
         var elStr = '<div seg-digit data-ng-model="value"> </div>';
         var el = $compile(elStr)($scope);
         $rootScope.$apply();
         
-        
         var g = el.children().children().eq(1);
-        expect(g.children().length).to.equal(8);
         
-        var arr = []; segUtil.segNumToArr(arr, $scope.value);
-        for(var i = 0, len = g.children().length ; i < len ; i++) {
-            var elem = angular.element(g.children()[i]);
+        for(var j = 1 ; j < 256 ; j++) {
             
-            expect(elem.hasClass('seven-seg-on')).to.equal(arr[i] ? true : false);
-        }
-        
-        $scope.value = 88;
-        $rootScope.$apply();
-        
-        var arr = []; segUtil.segNumToArr(arr, $scope.value);
-        for(var i = 0, len = g.children().length ; i < len ; i++) {
-            var elem = angular.element(g.children()[i]);
+            $scope.value = j;
+            $rootScope.$apply();
             
-            expect(elem.hasClass('seven-seg-on')).to.equal(arr[i] ? true : false);
+            var arr = segUtil.segNumToArr($scope.value);
+            for(var i = 0, len = g.children().length ; i < len ; i++) {
+                var elem = angular.element(g.children()[i]);
+                
+                expect(elem.hasClass('seven-seg-on')).to.equal(arr[i] ? true : false);
+            }
         }
         
     });

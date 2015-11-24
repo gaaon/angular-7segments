@@ -12,6 +12,7 @@
  * 
  * @from angular source code
  */
+/*istanbul ignore next*/
 function isScope(obj) {
   return obj && obj.$evalAsync && obj.$watch;
 }
@@ -25,6 +26,7 @@ function isScope(obj) {
  * 
  * @from angular source code
  */
+/*istanbul ignore next*/
 function isWindow(obj) {
   return obj && obj.window === obj;
 }
@@ -41,6 +43,7 @@ function isWindow(obj) {
  * 
  * @from angular source code
  */
+/*istanbul ignore next*/
 function toJsonReplacer(key, value) {
   var val = value;
 
@@ -65,6 +68,7 @@ function toJsonReplacer(key, value) {
  * @param {*} obj Object to serialzize
  * @returns {string} Serialized result
  */
+/*istanbul ignore next*/
 function serializeObject(obj) {
   var seen = [];
 
@@ -88,6 +92,7 @@ function serializeObject(obj) {
  * @param {*} obj Object to convert
  * @returns {string} Converted result
  */
+/*istanbul ignore next*/
 function toDebugString(obj) {
   if (typeof obj === 'function') {
     return obj.toString().replace(/ \{[\s\S]*$/, '');
@@ -104,6 +109,7 @@ function toDebugString(obj) {
  * @private
  * @from angularjs source code for error handler
  **/
+/*istanbul ignore next*/
 function minErr(module, ErrorConstructor) { /*jshint ignore:line */
   ErrorConstructor = ErrorConstructor || Error;
   return function() {

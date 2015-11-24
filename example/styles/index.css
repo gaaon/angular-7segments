@@ -1,0 +1,49 @@
+body, html {
+    min-height: 100%;
+    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background-color: #ddd;
+}
+
+.main-wrapper {
+    height:100%;
+}
+
+.hljs {
+    border: 1px solid #ddd;
+}
+
+.text-corn {
+    color: #6495ED;
+}
+
+.bg-white {
+    background-color: white;
+}
+
+.text-white {
+    color: white;
+}
+
+.bg-corn {
+    background-color: #6495ED;
+}
+
+.bg-trans {
+    background-color: transparent;
+}
+
+.bg-dark {
+    background-color: black;
+}
+
+.padding-1 {
+    padding: 1pc;
+}
+
+.bg-grey {
+    background-color: #ddd;
+}
+
+.text-black {
+    color: black;
+}

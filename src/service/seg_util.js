@@ -5,25 +5,33 @@
 var segUtilMinErr = minErr('segutil');
 
 function segUtil(segMap) { /*jshint ignore:line*/
-
-    this.arrToSegGroup = function(arr, length) {
+    var that = this;
+    
+    this.isDot = function(item) {
+        return item === '.' || item === segMap['.'];
+    };
+    
+    
+    this.arrToSegGroup = function(arr, size) {
         if( !angular.isArray(arr) && !angular.isString(arr) ) {
             throw new segUtilMinErr('badarrtype', 'The type \'{0}\' is not supported.', (typeof arr));
         }
+        var newArr = [], cnt = 0;
+        size || (size = arr.length);
         
-        var newArr = [];
-        var cnt = 0;
         
-        for(var i = 0, len = arr.length ; i < len && cnt < length ; cnt++, i++) {
-            var item = arr[i];
+        for(var i = 0, len = arr.length ; i < len && cnt < size; cnt++, i++) {
+            var item = arr[i] || 0;
             
-            if( item === '.' || item === segMap['.'] ) {
-                newArr[cnt] = segMap['.'];
-                continue;
+            if( that.isDot(item) ){ // when item is dot
+                var prev = arr[i-1];
+                
+                if( prev === void 0 || that.isDot(prev) ) newArr[cnt] = segMap['.'];
+                else newArr[--cnt] |= segMap['.'];
             }
             
-            if( angular.isString(item) ) { // have to convert
-                newArr[cnt] = segMap[item] || 0;
+            else if( angular.isString(item) ) {
+                newArr[cnt] = segMap[item];
             }
             
             else if( angular.isNumber(item) ) {
@@ -33,14 +41,9 @@ function segUtil(segMap) { /*jshint ignore:line*/
             else {
                 throw new segUtilMinErr('baditemtype', 'The type \'{0}\' is not supported.', (typeof item));
             }
-            
-            if( arr[i+1] === '.' || arr[i+1] == segMap['.']) {
-                newArr[cnt] += segMap['.'];
-                i++;
-            }
         }
         
-        return (new Array(length-cnt)).concat(newArr);
+        return newArr;
     };
     
     this.arrToSegNum = function(arr) {
@@ -57,16 +60,19 @@ function segUtil(segMap) { /*jshint ignore:line*/
         return ret;
     };
     
-    this.segNumToArr = function(ctx, val, oldVal) {
+    this.segNumToArr = function(val, oldVal) {
         var pos = 1;
         val = val || 0;
         
         var xor = oldVal == void 0 ? val : (val ^ oldVal);
         
+        var array = [];
         for(var i = 0 ; i < 8 ; pos <<= 1, i++) {
             if( pos & xor ) {
-                ctx[i] = !!(pos & val);
+                array[i] = !!(pos & val);
             }
         }
+        
+        return array;
     };
 }

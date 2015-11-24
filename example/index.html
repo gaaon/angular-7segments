@@ -1,44 +1,58 @@
-<!doctype html>
-<html data-ng-app="segApp" data-ng-csp>
+<!DOCTYPE html>
+<html data-ng-app="segment">
     <head>
+        <!-- Required meta tags always come first -->
         <meta charset="utf-8">
-        <meta name="description" content="profile webapp">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
         
-        <title> angular-7segments </title>
-        
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="//cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
+        <link rel="stylesheet" href="styles/index.css">
+        <link href='//fonts.googleapis.com/css?family=Roboto:300,500,700' rel='stylesheet' type='text/css'>
+        <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css" rel="stylesheet">
     </head>
   
     <body>
-        <div class="container" data-ng-controller="indexCtrl">
-            <h3 class="page-header">
-                angular-7segments
-            </h3>
+        <div class="bg-corn padding-1 text-white container">
+            <h1 class="display-3">
+                <div>angular</div>
+                <div>7segments</div> 
+                <small class="text-muted" style="display:block;">
+                    example
+                </small>
+            </h1>
+            by <a href="https://github.com/wooooo" target="_blank">Taewoo Kim</a>
+        </div>
+        
+        <div class="main-wrapper container bg-white">
+            <br><br>
+            <div card card-title="Basic Example" card-name="first" card-ctrl="firstEgCtrl"></div>
             
-            Angular plugin for displaying 7segments
+            <br>
             
+            <div card card-title="Dots example" card-name="second" 
+                card-ctrl="secondEgCtrl"></div>
             
+            <br>
             
-            <div seg-digit-group seg-length="8" data-ng-model="arr">
-                
+            <div card card-title="Options example" card-name="third"
+                card-ctrl="thirdEgCtrl"></div>
+            
             </div>
             
-            <!--<div seg-digit seg-val="value"></div>-->
-            <input type="text" data-ng-model="arr">
+            <br><br>
         </div>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.js"></script>
-        <script src="scripts/angular-7segments.js"></script>
-        <script src="scripts/app.js"></script>
         
-        <script>
-            var app = angular.module('segApp', ['wo.7segments'])
-            .controller('indexCtrl', function($scope){
-                $scope.value = 0;
-                $scope.arr = '123456';
-            });
-        </script>
-      
-  </body>
+        <footer class="bg-inverse container" style="padding: 1pc;">
+            <a href="https://github.com/wooooo/angular-7segments" class="text-white"> github </a>
+        </footer>
+        
+        <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular.min.js"></script>
+        <script src="scripts/angular-7segments.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js"></script>
+        <!--<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/languages/xml.min.js"></script>-->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/angular-highlightjs/0.5.1/angular-highlightjs.min.js"></script>
+        <script src="scripts/app.js"></script>
+    </body>
 </html>

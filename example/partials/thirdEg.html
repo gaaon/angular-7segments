@@ -1,48 +1,30 @@
 <div seg-group data-ng-model="value" seg-options="options"></div>
 
-<div class="row">
-    <span class="col-md-1"> value </span>
-    
-    <div class="col-md-5">
-        <input type="text" class="form-control" data-ng-model="value" data-ng-trim="false"/>
-    </div>
-    
+<div class="input-group">
+    <span class="input-group-addon"> value </span>
+    <input type="text" class="form-control" data-ng-model="value" data-ng-trim="false"/>
 </div>
 
-<div class="row">
-    <span class="col-md-1">
-        size
-    </span>
-        
-    <div class="col-md-5">
-        
-        <input type="number" class="form-control" data-ng-model="options.size"/>
-    </div>
-    
-    <div class="col-md-6" style="margin-top:8px;"> 
-        <span class="text-danger">Its input type is not [text] but [number]!!!</span>
-    </div>
+<div class="input-group">
+    <span class="input-group-addon"> size </span>
+    <input type="number" class="form-control" data-ng-model="options.size">
 </div>
 
-<div class="row">
-    <span class="col-md-1">
-        align
-    </span>
-    
-    <div class="col-md-5">
+<div class="input-group">
+    <span class="input-group-addon"> align </span>
+    <div class="form-control">
         <div class="radio-inline">
             <label>
-                <input type="radio" data-ng-model="options.align" data-ng-value="undefined" checked> left
+                <input type="radio" data-ng-model="options.align" data-ng-value="'right'" checked> right
             </label>
         </div>
         
         <div class="radio-inline">
             <label>
-                <input type="radio" data-ng-model="options.align" data-ng-value="true"> right
+                <input type="radio" data-ng-model="options.align" data-ng-value="'left'"> left
             </label>
         </div>
     </div>
-    
 </div>
 
 <div>

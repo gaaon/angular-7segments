@@ -50,7 +50,7 @@ function segUtil(segMap) { /*jshint ignore:line*/
         
         size = opt.size === void 0 ? cnt : opt.size;
         
-        if(opt.align === void 0 || opt.align === 'left') return (new Array(size-cnt)).concat(newArr);
+        if(opt.align === void 0 || opt.align === 'right') return (new Array(size-cnt)).concat(newArr);
         else return newArr.concat(new Array(size-cnt));
     };
     

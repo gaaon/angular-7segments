@@ -32,7 +32,7 @@ function segDigitGroupDirective(segUtil){ /*jshint ignore:line*/
             
             var opt = scope.segOptions || (scope.segOptions = {});
             
-            changeArr(scope.segArr, opt);
+            //changeArr(scope.segArr, opt);
             
             scope.wrapperStyle = {
                 width: (opt.width || 75)+'px',
@@ -46,11 +46,11 @@ function segDigitGroupDirective(segUtil){ /*jshint ignore:line*/
             
             
             
-            if( !!scope.segOptions.watch ) {
-                scope.$watchCollection('segOptions', function(opt){
-                    changeArr(scope.segArr, opt);
-                });
-            }
+            var optWatchOff = scope.$watchCollection('segOptions', function(opt){
+                changeArr(scope.segArr, opt);
+                
+                if(!opt.watch) optWatchOff();
+            });
         }
     };
     

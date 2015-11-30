@@ -19,7 +19,6 @@ var app = angular.module('segment', ['wo.7segments', 'hljs'])
     return directiveDefinitionObject;
 })
 .controller('firstEgCtrl', function($scope){
-    $scope.options = {size: 8};
     $scope.value ='7SEG-1.23';
 })
 .controller('secondEgCtrl', function($scope){
@@ -28,5 +27,5 @@ var app = angular.module('segment', ['wo.7segments', 'hljs'])
 })
 .controller('thirdEgCtrl', function($scope){
     $scope.value = '-_.123SEG';
-    $scope.options = {size: 12, watch:true};
+    $scope.options = {size: 12, watch:true, align: 'right'};
 })

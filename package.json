@@ -1,6 +1,6 @@
 {
   "name": "angular-7segments",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Angular plugin for displaying 7segments",
   "main": "angular-7segments.js",
   "scripts": {
@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Wooooo/angular-g-recaptcha.git"
+    "url": "git+https://github.com/Wooooo/angular-7segments.git"
   },
   "license": "MIT",
   "devDependencies": {

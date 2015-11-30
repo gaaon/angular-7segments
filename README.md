@@ -15,7 +15,7 @@ npm install angular-7segments
 
 bower
 ```
-npm install angular-7segments --save
+bower install angular-7segments --save
 ```
 
 browser

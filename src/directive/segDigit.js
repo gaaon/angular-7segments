@@ -6,7 +6,10 @@
  * 
  */
  
-function segDigitDirective(segUtil){ /*jshint ignore:line*/
+/* global
+    angular: true
+*/
+function segDigitDirective(segment){ /*jshint ignore:line*/
     var directiveDefinitionObject = {
         strict: 'E',
         require: '^ngModel',
@@ -16,10 +19,7 @@ function segDigitDirective(segUtil){ /*jshint ignore:line*/
         },
         templateUrl: 'digit.html',
         link: function(scope, el, attr, ngModelCtrl) { /*jshint ignore:line*/
-            scope.opt = scope.segDigitOptions || (scope.segDigitOptions = {});
-            
-            scope.opt.onName = scope.opt.onName || 'seven-seg-on';
-            scope.opt.digitName = scope.opt.digitName || 'seven-seg-digit';
+            scope.opt = angular.extend({}, segment.defaults.digit, scope.segDigitOptions);
         }
     };
     

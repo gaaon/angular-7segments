@@ -1,13 +1,19 @@
+/* global
+    inject: true,
+    expect: true,
+    angular: true
+*/
+
 describe('segDigit directive', function(){
-    var $compile, $rootScope, segUtil, tempEl;
+    var $compile, $rootScope, segment, tempEl;
     
     beforeEach(function() { 
         module('wo.7segments');
     
-        inject(function(_$compile_, _$rootScope_, _segUtil_){
+        inject(function(_$compile_, _$rootScope_, _segment_){
             $compile = _$compile_;
             $rootScope = _$rootScope_;
-            segUtil = _segUtil_;
+            segment = _segment_;
         });
         
         tempEl = document.createElement('div');
@@ -48,7 +54,7 @@ describe('segDigit directive', function(){
             var g = el.children().children().eq(1);
             expect(g.children().length).to.equal(8);
             
-            var arr = segUtil.segNumToArr($scope.value);
+            var arr = segment.segNumToArr($scope.value);
             for(var i = 0, len = g.children().length ; i < len ; i++) {
                 var elem = angular.element(g.children()[i]);
                 
@@ -78,7 +84,7 @@ describe('segDigit directive', function(){
             $scope.value = j;
             $rootScope.$apply();
             
-            var arr = segUtil.segNumToArr($scope.value);
+            var arr = segment.segNumToArr($scope.value);
             for(var i = 0, len = g.children().length ; i < len ; i++) {
                 var elem = angular.element(g.children()[i]);
                 

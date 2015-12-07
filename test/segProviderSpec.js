@@ -1,11 +1,11 @@
-describe('segUtil', function(){
-    var segUtil;
+describe('segment', function(){
+    var segment;
     
     beforeEach(function(){
         module('wo.7segments');
         
-        inject(function(_segUtil_){
-            segUtil = _segUtil_;
+        inject(function(_segment_){
+            segment = _segment_;
         });
     });
     
@@ -18,8 +18,8 @@ describe('segUtil', function(){
             for(var i = 0 ; i < expected.length ; i++) {
                 var item = expected[i];
                 
-                expect(segUtil.arrToSegGroup.bind(null, item, 5)).to.throw(Error, 
-                    '[segutil:badarrtype] The type \''+(typeof item)+'\' is not supported.');
+                expect(segment.arrToSegGroup.bind(null, item, 5)).to.throw(Error, 
+                    '[segment:badarrtype] The type \''+(typeof item)+'\' is not supported.');
             }
             
         });
@@ -31,8 +31,8 @@ describe('segUtil', function(){
         
             for(var i = 0 ; i < expected.length ; i++) {
                 var item = expected[i];
-                expect(segUtil.arrToSegGroup.bind(null, item, 5)).to.throw(Error,
-                    '[segutil:baditemtype] The type \''+(typeof item[0])+'\' is not supported.');
+                expect(segment.arrToSegGroup.bind(null, item, 5)).to.throw(Error,
+                    '[segment:baditemtype] The type \''+(typeof item[0])+'\' is not supported.');
             }
         });
         
@@ -46,7 +46,7 @@ describe('segUtil', function(){
             for(var i = 0 ; i < expected.length ; i++) {
                 var item = expected[i];
                 
-                var result = segUtil.arrToSegGroup(item, {size: 15});
+                var result = segment.arrToSegGroup(item, {size: 15});
                 
                 for(var j = 0 ; j < result.length ; j++) {
                     expect(result[j]).to.equal(actual[j]);
@@ -62,7 +62,7 @@ describe('segUtil', function(){
             
             var actual = []; for(var i = 0 ; i < 10 ; i++) actual.push(128);
             
-            expect(segUtil.arrToSegGroup(str, {size: 10})).to.deep.equal(actual);
+            expect(segment.arrToSegGroup(str, {size: 10})).to.deep.equal(actual);
         });
     });
     
@@ -75,8 +75,8 @@ describe('segUtil', function(){
             for(var i = 0, len = expected.length ; i < len ; i++) {
                 var item = expected[i];
                 
-                expect(segUtil.arrToSegNum.bind(undefined, item)).to.throw(Error, 
-                    '[segutil:badarrtype] The type \''+(typeof item)+'\' is not supported.')
+                expect(segment.arrToSegNum.bind(undefined, item)).to.throw(Error, 
+                    '[segment:badarrtype] The type \''+(typeof item)+'\' is not supported.')
             }
         });
         
@@ -87,7 +87,7 @@ describe('segUtil', function(){
             for(var i = 0, len = expected.length ; i < len ; i++) {
                 var item = expected[i];
                 
-                expect(segUtil.arrToSegNum(item)).to.equal(actual[i]);
+                expect(segment.arrToSegNum(item)).to.equal(actual[i]);
             }
         });
     });
@@ -97,7 +97,7 @@ describe('segUtil', function(){
         it('should return correct results according to arguments.', function() {
             for(var i = 0 ; i < 256 ; i++) {
                 
-                var expected = segUtil.segNumToArr(i), actual = [];
+                var expected = segment.segNumToArr(i), actual = [];
                 
                 
                 var copy = i;

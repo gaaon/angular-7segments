@@ -1,4 +1,4 @@
-<svg data-ng-class="opt.digitName" viewBox="0 0 57 80" version="1.1" xmlns="http://www.w3.org/2000/svg" 
+<svg data-ng-class="opt.digitClass" viewBox="0 0 57 80" version="1.1" xmlns="http://www.w3.org/2000/svg" 
     xmlns:xlink="http://www.w3.org/1999/xlink" focusable="false">
     
     <defs>
@@ -8,29 +8,29 @@
     
     <g class="seven-seg-group">
         <use xlink:href="#h-part" x="0" y="0" 
-            data-ng-class="(segVal | bitAnd : 1) && opt.onName"></use>
+            data-ng-class="(segVal | bitAnd : 1) && opt.onClass"></use>
         
         <use xlink:href="#v-part" x="-48" y="0" transform="scale(-1,1)" 
-            data-ng-class="(segVal | bitAnd : 2)  && opt.onName"></use>
+            data-ng-class="(segVal | bitAnd : 2)  && opt.onClass"></use>
         
         <use xlink:href="#v-part" x="-48" y="-80" transform="scale(-1,-1)" 
-            data-ng-class="(segVal | bitAnd : 4) && opt.onName"></use>
+            data-ng-class="(segVal | bitAnd : 4) && opt.onClass"></use>
         
         <use xlink:href="#h-part" x="0" y="70" 
-            data-ng-class="(segVal | bitAnd : 8) && opt.onName"></use>
+            data-ng-class="(segVal | bitAnd : 8) && opt.onClass"></use>
         
         <use xlink:href="#v-part" x="0" y="-80" transform="scale(1,-1)"  
-            data-ng-class="(segVal | bitAnd : 16) && opt.onName"></use>
+            data-ng-class="(segVal | bitAnd : 16) && opt.onClass"></use>
         
         <use xlink:href="#v-part" x="0" y="0"  
-            data-ng-class="(segVal | bitAnd : 32) && opt.onName"></use>
+            data-ng-class="(segVal | bitAnd : 32) && opt.onClass"></use>
         
         <use xlink:href="#h-part" x="0" y="35"  
-            data-ng-class="(segVal | bitAnd : 64) && opt.onName"></use>
+            data-ng-class="(segVal | bitAnd : 64) && opt.onClass"></use>
             
         
         <circle cx="52" cy="75" r="5"  
-            data-ng-class="(segVal | bitAnd : 128) && opt.onName"></circle>
+            data-ng-class="(segVal | bitAnd : 128) && opt.onClass"></circle>
     </g>
 </svg>
 

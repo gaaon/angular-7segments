@@ -1,6 +1,6 @@
 /**
  * @name angular-7segments
- * @version v0.0.1
+ * @version v0.0.2
  * @author Taewoo Kim xodn4195@gmail.com
  * @license MIT
  */
@@ -163,7 +163,10 @@ function minErr(module, ErrorConstructor) { /*jshint ignore:line */
  * 
  */
  
-function segDigitDirective(segUtil){ /*jshint ignore:line*/
+/* global
+    angular: true
+*/
+function segDigitDirective(segment){ /*jshint ignore:line*/
     var directiveDefinitionObject = {
         strict: 'E',
         require: '^ngModel',
@@ -173,20 +176,18 @@ function segDigitDirective(segUtil){ /*jshint ignore:line*/
         },
         templateUrl: 'digit.html',
         link: function(scope, el, attr, ngModelCtrl) { /*jshint ignore:line*/
-            scope.opt = scope.segDigitOptions || (scope.segDigitOptions = {});
-            
-            scope.opt.onName = scope.opt.onName || 'seven-seg-on';
-            scope.opt.digitName = scope.opt.digitName || 'seven-seg-digit';
+            scope.opt = angular.extend({}, segment.defaults.digit, scope.segDigitOptions);
         }
     };
     
     return directiveDefinitionObject;
 }
-segDigitDirective.$inject = ["segUtil"];
+segDigitDirective.$inject = ["segment"];
 
 
 /*global
-    minErr: true
+    minErr: true,
+    angular: true
 */
 
 /**
@@ -199,7 +200,7 @@ segDigitDirective.$inject = ["segUtil"];
 
 var segGroupMinErr = minErr('segGroup'); /*jshint ignore:line*/
 
-function segDigitGroupDirective(segUtil){ /*jshint ignore:line*/
+function segDigitGroupDirective(segment){ /*jshint ignore:line*/
     var directiveDefinitionObject = {
         strict: 'E',
         require: '^ngModel',
@@ -211,39 +212,39 @@ function segDigitGroupDirective(segUtil){ /*jshint ignore:line*/
         link: function(scope) {
             function changeArr(arr, opt) {
                 try {
-                    scope.digits = segUtil.arrToSegGroup(arr, opt);
+                    scope.digits = segment.arrToSegGroup(arr, opt);
                 } catch(e) {
                     scope.digits = [];
                 }
             }
             
-            var opt = scope.segOptions || (scope.segOptions = {});
+            var opt = angular.copy(segment.defaults.group);
             
             //changeArr(scope.segArr, opt);
-            
-            scope.wrapperStyle = {
-                width: (opt.width || 75)+'px',
-                height: (opt.height || 150)+'px'
-            };
-            
             
             scope.$watch('segArr', function(arr){
                 changeArr(arr, opt);
             });
             
             
-            
-            var optWatchOff = scope.$watchCollection('segOptions', function(opt){
+            var optionWatchOff = scope.$watchCollection('segOptions', function(newOpt){
+                angular.extend(opt, newOpt);
                 changeArr(scope.segArr, opt);
                 
-                if(!opt.watch) optWatchOff();
+                scope.wrapperStyle = {
+                    width: opt.width+'px',
+                    height: opt.height+'px'
+                };
+                
+                
+                if(!opt.watch) optionWatchOff();
             });
         }
     };
     
     return directiveDefinitionObject;
 }
-segDigitGroupDirective.$inject = ["segUtil"];
+segDigitGroupDirective.$inject = ["segment"];
 
 
 function bitAnd(){ /*jshint ignore:line*/
@@ -278,89 +279,121 @@ var segMap = { /*jshint ignore:line*/
     angular: true,
     minErr: true
 */
-var segUtilMinErr = minErr('segutil');
 
-function segUtil(segMap) { /*jshint ignore:line*/
-    var that = this;
+var segMinErr = minErr('segment');
+
+function segmentProvider(){ /*jshint ignore:line*/
+    var $provider = this;
     
-    this.isDot = function(item) {
-        return item === '.' || item === segMap['.'];
+    this.defaults = {
+        digit: {
+            onClass: 'seven-seg-on',
+            digitClass: 'seven-seg-digit'
+        },
+        
+        group: {
+            width: 75,
+            height: 150,
+            align: undefined,   // align right
+            watch: undefined
+        }
     };
     
-    
-    this.arrToSegGroup = function(arr, opt) {
-        if( !angular.isArray(arr) && !angular.isString(arr) ) {
-            throw new segUtilMinErr('badarrtype', 'The type \'{0}\' is not supported.', (typeof arr));
-        }
+    this.$get = ["segMap", function(segMap){
         
-        if( opt.size < 0 ) {
-            throw new segUtilMinErr('badsize', 'The size \'{0}\' cannot be negative.', opt.size);
-        }
-        
-        var newArr = [], cnt = 0;
-        var size = opt.size === void 0 ? arr.length : opt.size, i = 0;
-        
-        for(var len = arr.length ; i < len && cnt < size; cnt++, i++) {
-            var item = arr[i] || 0;
+        function segmentService() {
+            var that = this;
             
-            if( that.isDot(item) ){ // when item is dot
-                var prev = arr[i-1];
+            
+            this.isDot = function(item) {
+                return item === '.' || item === segMap['.'];
+            };
+            
+            
+            this.arrToSegGroup = function(arr, opt) {
+                if( !angular.isArray(arr) && !angular.isString(arr) ) {
+                    throw new segMinErr('badarrtype', 'The type \'{0}\' is not supported.', (typeof arr));
+                }
                 
-                if( prev === void 0 || that.isDot(prev) ) newArr[cnt] = segMap['.'];
-                else newArr[--cnt] |= segMap['.'];
-            }
+                if( opt.size < 0 ) {
+                    throw new segMinErr('badsize', 'The size \'{0}\' cannot be negative.', opt.size);
+                }
+                
+                var newArr = [], cnt = 0;
+                var size = opt.size === void 0 ? arr.length : opt.size, i = 0;
+                
+                for(var len = arr.length ; i < len && cnt < size; cnt++, i++) {
+                    var item = arr[i] || 0;
+                    
+                    if( that.isDot(item) ){ // when item is dot
+                        var prev = arr[i-1];
+                        
+                        if( prev === void 0 || that.isDot(prev) ) newArr[cnt] = segMap['.'];
+                        else newArr[--cnt] |= segMap['.'];
+                    }
+                    
+                    else if( angular.isString(item) ) {
+                        newArr[cnt] = segMap[item];
+                    }
+                    
+                    else if( angular.isNumber(item) ) {
+                        newArr[cnt] = item;
+                    }
+                    
+                    else {
+                        throw new segMinErr('baditemtype', 'The type \'{0}\' is not supported.', (typeof item));
+                    }
+                }
+                if( that.isDot(arr[i]) ) newArr[cnt-1] |= segMap['.'];
+                
+                size = opt.size === void 0 ? cnt : opt.size;
+                
+                if(opt.align === void 0 || opt.align === 'right') return (new Array(size-cnt)).concat(newArr);
+                else return newArr.concat(new Array(size-cnt));
+            };
             
-            else if( angular.isString(item) ) {
-                newArr[cnt] = segMap[item];
-            }
             
-            else if( angular.isNumber(item) ) {
-                newArr[cnt] = item;
-            }
             
-            else {
-                throw new segUtilMinErr('baditemtype', 'The type \'{0}\' is not supported.', (typeof item));
-            }
+            this.arrToSegNum = function(arr) {
+                if( !angular.isArray(arr) && !angular.isString(arr) ) {
+                    throw new segMinErr('badarrtype', 'The type \'{0}\' is not supported.', (typeof arr));
+                }
+                
+                var pos = 1, ret = 0;
+                
+                for(var i = 0, len = 8 ; i < len ; pos<<=1, i++) {
+                    if( !!arr[i] && arr[i] != '0') ret |= pos;
+                }
+                
+                return ret;
+            };
+            
+            
+            
+            this.segNumToArr = function(val, oldVal) {
+                var pos = 1;
+                val = val || 0;
+                
+                var xor = oldVal == void 0 ? val : (val ^ oldVal);
+                
+                var array = [];
+                for(var i = 0 ; i < 8 ; pos <<= 1, i++) {
+                    if( pos & xor ) {
+                        array[i] = !!(pos & val);
+                    }
+                }
+                
+                return array;
+            };
+            
+            
+            
+            this.defaults = $provider.defaults;
         }
-        if( that.isDot(arr[i]) ) newArr[cnt-1] |= segMap['.'];
-        
-        size = opt.size === void 0 ? cnt : opt.size;
-        
-        if(opt.align === void 0 || opt.align === 'right') return (new Array(size-cnt)).concat(newArr);
-        else return newArr.concat(new Array(size-cnt));
-    };
-    
-    this.arrToSegNum = function(arr) {
-        if( !angular.isArray(arr) && !angular.isString(arr) ) {
-            throw new segUtilMinErr('badarrtype', 'The type \'{0}\' is not supported.', (typeof arr));
-        }
-        
-        var pos = 1, ret = 0;
-        
-        for(var i = 0, len = 8 ; i < len ; pos<<=1, i++) {
-            if( !!arr[i] && arr[i] != '0') ret += pos;
-        }
-        
-        return ret;
-    };
-    
-    this.segNumToArr = function(val, oldVal) {
-        var pos = 1;
-        val = val || 0;
-        
-        var xor = oldVal == void 0 ? val : (val ^ oldVal);
-        
-        var array = [];
-        for(var i = 0 ; i < 8 ; pos <<= 1, i++) {
-            if( pos & xor ) {
-                array[i] = !!(pos & val);
-            }
-        }
-        
-        return array;
-    };
+
+        return new segmentService();
+    }];
 }
-segUtil.$inject = ["segMap"];
 
 
 /* global
@@ -368,8 +401,8 @@ segUtil.$inject = ["segMap"];
     segDigitDirective: true,
     segDigitGroupDirective: true,
     segMap: true,
-    segUtil: true,
-    bitAnd: true
+    bitAnd: true,
+    segmentProvider: true
 */
 
 /**
@@ -382,8 +415,8 @@ var app = angular.module('wo.7segments', []) /*jshint ignore:line*/
 .directive('segDigit', segDigitDirective)
 .directive('segGroup', segDigitGroupDirective)
 .value('segMap', segMap)
-.service('segUtil', segUtil)
 .filter('bitAnd', bitAnd)
+.provider('segment', segmentProvider)
 .run(["$document", function($document) {
     var head = $document[0].querySelector('head');
     var style = $document[0].createElement('style');
@@ -397,7 +430,7 @@ var app = angular.module('wo.7segments', []) /*jshint ignore:line*/
 
 
 /*global angular*/
-angular.module("wo.7segments").run(["$templateCache", function($templateCache) {$templateCache.put("digit.html","<svg data-ng-class=\"opt.digitName\" viewBox=\"0 0 57 80\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" focusable=\"false\"> <defs> <polyline id=\"h-part\" points=\"11 0, 37 0, 42 5, 37 10, 11 10, 6 5\"></polyline> <polyline id=\"v-part\" points=\"0 11, 5 6, 10 11, 10 34, 5 39, 0 34\"></polyline> </defs> <g class=\"seven-seg-group\"> <use xlink:href=\"#h-part\" x=\"0\" y=\"0\" data-ng-class=\"(segVal | bitAnd : 1) && opt.onName\"></use> <use xlink:href=\"#v-part\" x=\"-48\" y=\"0\" transform=\"scale(-1,1)\" data-ng-class=\"(segVal | bitAnd : 2)  && opt.onName\"></use> <use xlink:href=\"#v-part\" x=\"-48\" y=\"-80\" transform=\"scale(-1,-1)\" data-ng-class=\"(segVal | bitAnd : 4) && opt.onName\"></use> <use xlink:href=\"#h-part\" x=\"0\" y=\"70\" data-ng-class=\"(segVal | bitAnd : 8) && opt.onName\"></use> <use xlink:href=\"#v-part\" x=\"0\" y=\"-80\" transform=\"scale(1,-1)\" data-ng-class=\"(segVal | bitAnd : 16) && opt.onName\"></use> <use xlink:href=\"#v-part\" x=\"0\" y=\"0\" data-ng-class=\"(segVal | bitAnd : 32) && opt.onName\"></use> <use xlink:href=\"#h-part\" x=\"0\" y=\"35\" data-ng-class=\"(segVal | bitAnd : 64) && opt.onName\"></use> <circle cx=\"52\" cy=\"75\" r=\"5\" data-ng-class=\"(segVal | bitAnd : 128) && opt.onName\"></circle> </g> </svg>");
+angular.module("wo.7segments").run(["$templateCache", function($templateCache) {$templateCache.put("digit.html","<svg data-ng-class=\"opt.digitClass\" viewBox=\"0 0 57 80\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" focusable=\"false\"> <defs> <polyline id=\"h-part\" points=\"11 0, 37 0, 42 5, 37 10, 11 10, 6 5\"></polyline> <polyline id=\"v-part\" points=\"0 11, 5 6, 10 11, 10 34, 5 39, 0 34\"></polyline> </defs> <g class=\"seven-seg-group\"> <use xlink:href=\"#h-part\" x=\"0\" y=\"0\" data-ng-class=\"(segVal | bitAnd : 1) && opt.onClass\"></use> <use xlink:href=\"#v-part\" x=\"-48\" y=\"0\" transform=\"scale(-1,1)\" data-ng-class=\"(segVal | bitAnd : 2)  && opt.onClass\"></use> <use xlink:href=\"#v-part\" x=\"-48\" y=\"-80\" transform=\"scale(-1,-1)\" data-ng-class=\"(segVal | bitAnd : 4) && opt.onClass\"></use> <use xlink:href=\"#h-part\" x=\"0\" y=\"70\" data-ng-class=\"(segVal | bitAnd : 8) && opt.onClass\"></use> <use xlink:href=\"#v-part\" x=\"0\" y=\"-80\" transform=\"scale(1,-1)\" data-ng-class=\"(segVal | bitAnd : 16) && opt.onClass\"></use> <use xlink:href=\"#v-part\" x=\"0\" y=\"0\" data-ng-class=\"(segVal | bitAnd : 32) && opt.onClass\"></use> <use xlink:href=\"#h-part\" x=\"0\" y=\"35\" data-ng-class=\"(segVal | bitAnd : 64) && opt.onClass\"></use> <circle cx=\"52\" cy=\"75\" r=\"5\" data-ng-class=\"(segVal | bitAnd : 128) && opt.onClass\"></circle> </g> </svg>");
 $templateCache.put("group.html","<div class=\"seven-seg-digit-wrapper\" data-ng-style=\"wrapperStyle\" data-ng-repeat=\"dig in digits track by $index\" seg-digit data-ng-model=\"dig\"></div>");}]);
 
 })(window, window.angular);

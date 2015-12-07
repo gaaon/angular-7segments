@@ -3,8 +3,8 @@
     segDigitDirective: true,
     segDigitGroupDirective: true,
     segMap: true,
-    segUtil: true,
-    bitAnd: true
+    bitAnd: true,
+    segmentProvider: true
 */
 
 /**
@@ -17,8 +17,8 @@ var app = angular.module('wo.7segments', []) /*jshint ignore:line*/
 .directive('segDigit', segDigitDirective)
 .directive('segGroup', segDigitGroupDirective)
 .value('segMap', segMap)
-.service('segUtil', segUtil)
 .filter('bitAnd', bitAnd)
+.provider('segment', segmentProvider)
 .run(function($document) {
     var head = $document[0].querySelector('head');
     var style = $document[0].createElement('style');

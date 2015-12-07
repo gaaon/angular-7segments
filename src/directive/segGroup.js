@@ -1,5 +1,6 @@
 /*global
-    minErr: true
+    minErr: true,
+    angular: true
 */
 
 /**
@@ -12,7 +13,7 @@
 
 var segGroupMinErr = minErr('segGroup'); /*jshint ignore:line*/
 
-function segDigitGroupDirective(segUtil){ /*jshint ignore:line*/
+function segDigitGroupDirective(segment){ /*jshint ignore:line*/
     var directiveDefinitionObject = {
         strict: 'E',
         require: '^ngModel',
@@ -24,32 +25,32 @@ function segDigitGroupDirective(segUtil){ /*jshint ignore:line*/
         link: function(scope) {
             function changeArr(arr, opt) {
                 try {
-                    scope.digits = segUtil.arrToSegGroup(arr, opt);
+                    scope.digits = segment.arrToSegGroup(arr, opt);
                 } catch(e) {
                     scope.digits = [];
                 }
             }
             
-            var opt = scope.segOptions || (scope.segOptions = {});
+            var opt = angular.copy(segment.defaults.group);
             
             //changeArr(scope.segArr, opt);
-            
-            scope.wrapperStyle = {
-                width: (opt.width || 75)+'px',
-                height: (opt.height || 150)+'px'
-            };
-            
             
             scope.$watch('segArr', function(arr){
                 changeArr(arr, opt);
             });
             
             
-            
-            var optWatchOff = scope.$watchCollection('segOptions', function(opt){
+            var optionWatchOff = scope.$watchCollection('segOptions', function(newOpt){
+                angular.extend(opt, newOpt);
                 changeArr(scope.segArr, opt);
                 
-                if(!opt.watch) optWatchOff();
+                scope.wrapperStyle = {
+                    width: opt.width+'px',
+                    height: opt.height+'px'
+                };
+                
+                
+                if(!opt.watch) optionWatchOff();
             });
         }
     };

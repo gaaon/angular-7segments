@@ -1,8 +1,3 @@
-/*global
-    minErr: true,
-    angular: true
-*/
-
 /**
  * @ngdoc directive
  * 
@@ -11,16 +6,16 @@
  * 
  */
 
-var segGroupMinErr = minErr('segGroup'); /*jshint ignore:line*/
+var segGroupMinErr = minErr('segGroup');
 
-function segDigitGroupDirective(segment){ /*jshint ignore:line*/
+function segDigitGroupDirective(segment){
     var directiveDefinitionObject = {
         strict: 'E',
         require: '^ngModel',
         scope: {
             'segOptions': '=',
             'segDigitOptions': '=',
-            'segArr': '=ngModel',
+            'segArr': '=ngModel'
         },
         templateUrl: 'group.html',
         link: function(scope) {
@@ -33,7 +28,6 @@ function segDigitGroupDirective(segment){ /*jshint ignore:line*/
             }
             
             var opt = angular.copy(segment.defaults.group);
-            //changeArr(scope.segArr, opt);
             
             scope.$watch('segArr', function(arr){
                 changeArr(arr, opt);

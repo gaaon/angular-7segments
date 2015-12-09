@@ -1,4 +1,4 @@
-var segMap = { /*jshint ignore:line*/
+var segMap = {
     '1': 6,
     '2': 91,
     '3': 79,

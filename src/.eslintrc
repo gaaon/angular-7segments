@@ -1,0 +1,14 @@
+{
+    "env": {
+        "browser": true
+    },
+    "globals": {
+        "angular": false,
+        "minErr": false,
+        "segDigitDirective": false,
+        "segDigitGroupDirective": false,
+        "segMap": true,
+        "bitAnd": false,
+        "segmentProvider": false
+    }
+}

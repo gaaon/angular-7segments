@@ -157,7 +157,7 @@ gulp.task('watch:example', ['init:browserSync'], function() {
 });
 
 
-gulp.task('test', ['build', 'lint'], function (done) {
+gulp.task('test', ['build', 'lint:source'], function (done) {
     new karma({
         configFile: __dirname + '/karma.conf.js',
         browsers: ['PhantomJS'],
@@ -169,24 +169,24 @@ gulp.task('test', ['build', 'lint'], function (done) {
 });
 
 
-gulp.task('lint', function (){
-    return gulp.src('./src/**/*.js')
-    .pipe($.jshint())
-    .pipe($.jshint.reporter('default'))
-    .pipe($.jshint.reporter('fail'));
+gulp.task('lint:source', function (){
+    return gulp.src(['./src/**/*.js', 'test/**/*.js'])
+    .pipe($.eslint())
+    .pipe($.eslint.format())
+    .pipe($.eslint.failAfterError());
 });
 
 
 
-gulp.task('lint-nofail', function(){
-    return gulp.src('./src/**/*.js')
-    .pipe($.jshint())
-    .pipe($.jshint.reporter('default'));
+gulp.task('lint:source:nofail', function(){
+     return gulp.src(['./src/**/*.js', 'test/**/*.js'])
+    .pipe($.eslint())
+    .pipe($.eslint.format());
 });
 
 
-gulp.task('watch:source', ['lint-nofail', 'build'], function(){
-    gulp.watch(['src/**/*.js'], ['lint-nofail', 'build']);
+gulp.task('watch:source', ['lint:source:nofail', 'build'], function(){
+    gulp.watch(['src/**/*.js'], ['lint:source:nofail', 'build']);
     gulp.watch(['src/template/*.html'], ['build']);
 });
 

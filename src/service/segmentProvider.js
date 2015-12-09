@@ -1,11 +1,6 @@
-/* globals
-    angular: true,
-    minErr: true
-*/
-
 var segMinErr = minErr('segment');
 
-function segmentProvider(){ /*jshint ignore:line*/
+function segmentProvider(){
     var $provider = this;
     
     this.defaults = {

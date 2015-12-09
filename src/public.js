@@ -1,12 +1,3 @@
-/* global
-    angular: true,
-    segDigitDirective: true,
-    segDigitGroupDirective: true,
-    segMap: true,
-    bitAnd: true,
-    segmentProvider: true
-*/
-
 /**
  * @ngdoc overview
  * @name wo.7segments

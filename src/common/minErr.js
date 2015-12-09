@@ -1,8 +1,3 @@
-/* global
-  angular,
-  document
-*/
-
 /**
  * Checks if `obj` is a scope object.
  *
@@ -110,7 +105,7 @@ function toDebugString(obj) {
  * @from angularjs source code for error handler
  **/
 /*istanbul ignore next*/
-function minErr(module, ErrorConstructor) { /*jshint ignore:line */
+function minErr(module, ErrorConstructor) {
   ErrorConstructor = ErrorConstructor || Error;
   return function() {
     var SKIP_INDEXES = 2;

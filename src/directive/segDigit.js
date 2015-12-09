@@ -5,11 +5,8 @@
  * @strict 'E'
  * 
  */
- 
-/* global
-    angular: true
-*/
-function segDigitDirective(segment){ /*jshint ignore:line*/
+
+function segDigitDirective(segment){
     var directiveDefinitionObject = {
         strict: 'E',
         require: '^ngModel',
@@ -18,7 +15,7 @@ function segDigitDirective(segment){ /*jshint ignore:line*/
             'segDigitOptions': '='
         },
         templateUrl: 'digit.html',
-        link: function(scope, el, attr, ngModelCtrl) { /*jshint ignore:line*/
+        link: function(scope, el, attr, ngModelCtrl) {
             scope.opt = angular.extend({}, segment.defaults.digit, scope.segDigitOptions);
         }
     };

@@ -6,11 +6,6 @@
  */
 (function(window, angular){
 
-/* global
-  angular,
-  document
-*/
-
 /**
  * Checks if `obj` is a scope object.
  *
@@ -118,7 +113,7 @@ function toDebugString(obj) {
  * @from angularjs source code for error handler
  **/
 /*istanbul ignore next*/
-function minErr(module, ErrorConstructor) { /*jshint ignore:line */
+function minErr(module, ErrorConstructor) {
   ErrorConstructor = ErrorConstructor || Error;
   return function() {
     var SKIP_INDEXES = 2;
@@ -162,11 +157,8 @@ function minErr(module, ErrorConstructor) { /*jshint ignore:line */
  * @strict 'E'
  * 
  */
- 
-/* global
-    angular: true
-*/
-function segDigitDirective(segment){ /*jshint ignore:line*/
+
+function segDigitDirective(segment){
     var directiveDefinitionObject = {
         strict: 'E',
         require: '^ngModel',
@@ -175,7 +167,7 @@ function segDigitDirective(segment){ /*jshint ignore:line*/
             'segDigitOptions': '='
         },
         templateUrl: 'digit.html',
-        link: function(scope, el, attr, ngModelCtrl) { /*jshint ignore:line*/
+        link: function(scope, el, attr, ngModelCtrl) {
             scope.opt = angular.extend({}, segment.defaults.digit, scope.segDigitOptions);
         }
     };
@@ -185,11 +177,6 @@ function segDigitDirective(segment){ /*jshint ignore:line*/
 segDigitDirective.$inject = ["segment"];
 
 
-/*global
-    minErr: true,
-    angular: true
-*/
-
 /**
  * @ngdoc directive
  * 
@@ -198,16 +185,16 @@ segDigitDirective.$inject = ["segment"];
  * 
  */
 
-var segGroupMinErr = minErr('segGroup'); /*jshint ignore:line*/
+var segGroupMinErr = minErr('segGroup');
 
-function segDigitGroupDirective(segment){ /*jshint ignore:line*/
+function segDigitGroupDirective(segment){
     var directiveDefinitionObject = {
         strict: 'E',
         require: '^ngModel',
         scope: {
             'segOptions': '=',
             'segDigitOptions': '=',
-            'segArr': '=ngModel',
+            'segArr': '=ngModel'
         },
         templateUrl: 'group.html',
         link: function(scope) {
@@ -220,7 +207,6 @@ function segDigitGroupDirective(segment){ /*jshint ignore:line*/
             }
             
             var opt = angular.copy(segment.defaults.group);
-            //changeArr(scope.segArr, opt);
             
             scope.$watch('segArr', function(arr){
                 changeArr(arr, opt);
@@ -246,14 +232,14 @@ function segDigitGroupDirective(segment){ /*jshint ignore:line*/
 segDigitGroupDirective.$inject = ["segment"];
 
 
-function bitAnd(){ /*jshint ignore:line*/
+function bitAnd(){
     return function(input, other){
         return input & other;
     };
 }
 
 
-var segMap = { /*jshint ignore:line*/
+var segMap = {
     '1': 6,
     '2': 91,
     '3': 79,
@@ -274,14 +260,9 @@ var segMap = { /*jshint ignore:line*/
 }; 
 
 
-/* globals
-    angular: true,
-    minErr: true
-*/
-
 var segMinErr = minErr('segment');
 
-function segmentProvider(){ /*jshint ignore:line*/
+function segmentProvider(){
     var $provider = this;
     
     this.defaults = {
@@ -394,15 +375,6 @@ function segmentProvider(){ /*jshint ignore:line*/
     }];
 }
 
-
-/* global
-    angular: true,
-    segDigitDirective: true,
-    segDigitGroupDirective: true,
-    segMap: true,
-    bitAnd: true,
-    segmentProvider: true
-*/
 
 /**
  * @ngdoc overview

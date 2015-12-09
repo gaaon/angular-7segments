@@ -88,7 +88,7 @@ gulp.task('init:browserSync', function(){
         proxy: 'localhost:8000',
         port: process.env.PORT,      //replace this with a port which you want to use
         socket: {
-            domain: 'https://angular-7segments-xodn4195-1.c9users.io:8080'
+            domain: 'https://workspace-xodn4195.c9users.io:8080'
         }
     });
 });
@@ -152,8 +152,8 @@ gulp.task('build:ngdocs', ['build'], function(){
 
 
 gulp.task('watch:example', ['init:browserSync'], function() {
-    gulp.watch(['src/**/*.js'], ['build']).on('change', browserSync.reload);
-    gulp.watch(['example/**/*.html']).on('change', browserSync.reload);
+    gulp.watch(['src/**/*.js', 'src/template/*.html'], ['build']);
+    gulp.watch(['example/**/*']).on('change', browserSync.reload);
 });
 
 

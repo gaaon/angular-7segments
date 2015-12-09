@@ -19,6 +19,7 @@ function segDigitGroupDirective(segment){ /*jshint ignore:line*/
         require: '^ngModel',
         scope: {
             'segOptions': '=',
+            'segDigitOptions': '=',
             'segArr': '=ngModel',
         },
         templateUrl: 'group.html',
@@ -32,7 +33,6 @@ function segDigitGroupDirective(segment){ /*jshint ignore:line*/
             }
             
             var opt = angular.copy(segment.defaults.group);
-            
             //changeArr(scope.segArr, opt);
             
             scope.$watch('segArr', function(arr){
@@ -48,7 +48,6 @@ function segDigitGroupDirective(segment){ /*jshint ignore:line*/
                     width: opt.width+'px',
                     height: opt.height+'px'
                 };
-                
                 
                 if(!opt.watch) optionWatchOff();
             });

@@ -29,3 +29,16 @@ var app = angular.module('segment', ['wo.7segments', 'hljs'])
     $scope.value = '-_.123SEG';
     $scope.options = {size: 12, watch:true, align: 'right'};
 })
+.controller('fourthEgCtrl', function($scope){
+    $scope.value = '12345678';
+    $scope.options = {
+        size: 10, 
+        watch:true, 
+        align: 'right'
+    };
+    
+    $scope.digitOptions = {
+        onClass: 'custom-segment-on',
+        digitClass: 'custom-segment-digit segment-digit-common'
+    };
+});

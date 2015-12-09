@@ -47,3 +47,29 @@ body, html {
 .text-black {
     color: black;
 }
+
+.segment-digit-common {
+    overflow: hidden;
+    stroke-width: 0; 
+    height: 100%; 
+    width: 100%;
+}
+
+.custom-segment-digit {
+    fill: #D9E5FF;
+    background-color: white;
+    
+}
+
+.custom-segment-on {
+    fill: #4374D9;
+}
+
+.title-segment-digit {
+    fill: #6799FF;
+    background-color: #6495ED;
+}
+
+.title-segment-on {
+    fill: white;
+}

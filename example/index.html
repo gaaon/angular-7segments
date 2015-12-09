@@ -15,9 +15,16 @@
   
     <body>
         <div class="bg-corn padding-1 text-white container">
-            <h1 class="display-3">
+            <h1 class="display-3" data-ng-init="title = '7SEG';">
+                
+                    
+                    
                 <div>angular</div>
-                <div>7segments</div> 
+                <span seg-group data-ng-model="title" 
+                    seg-options="{width:50, height: 100}"
+                    seg-digit-options="{onClass:'title-segment-on',
+                    digitClass: 'title-segment-digit'}"></span>ments
+                
                 <small class="text-muted" style="display:block;">
                     example
                 </small>
@@ -39,7 +46,8 @@
             <div card card-title="Options example" card-name="third"
                 card-ctrl="thirdEgCtrl"></div>
             
-            
+            <div card card-title="Custom style" card-name="fourth"
+                card-ctrl="fourthEgCtrl"></div>
             <br><br>
         </div>
         

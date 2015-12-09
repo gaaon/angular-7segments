@@ -101,7 +101,36 @@ app.controller('optCtrl', function($scope){
 </div>
 ```
 
+### Custom style
+```javascript
+app.controlller('styleCtrl', function($scope){
+    $scope.value = '12345678';
+    $scope.digitOptions = {
+        onClass: 'custom-on-class',         // class name for light-on part
+        digitClass: 'custom-digit-class'    // class name for entire digit
+    };
+);
+```
 
+```css
+.custom-on-class {
+    fill: black;
+}
+
+.custom-digit-class {
+    fill: #ddd;
+    background-color: white;
+}
+```
+
+```html
+<div data-ng-controller="basicCtrl">
+    <div seg-group seg-options="options" data-ng-model="value"
+        seg-digit-options="digitOptions"> </div> 
+    <!-- [1][2][3][4][5]6][7][8] -->
+    <!-- background color is white and light-on part color is black -->
+</div>
+```
 <a name="license"> </a>
 ## LICENSE
 [MIT](LICENSE)

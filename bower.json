@@ -11,13 +11,17 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "^1.4.8"
+    "angular": "1.5.0-rc.0"
   },
   "license": "MIT",
   "moduleType": [
     "globals"
   ],
   "devDependencies": {
-    "angular-mocks": "^1.4.8"
+    "angular-mocks": "1.5.0-rc.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wooooo/angular-7segments.git"
   }
 }

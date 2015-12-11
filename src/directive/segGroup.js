@@ -11,7 +11,7 @@ var segGroupMinErr = minErr('segGroup');
 function segDigitGroupDirective(segment){
     var directiveDefinitionObject = {
         strict: 'E',
-        require: '^ngModel',
+        require: 'ngModel',
         scope: {
             'segOptions': '=',
             'segDigitOptions': '=',
@@ -19,6 +19,7 @@ function segDigitGroupDirective(segment){
         },
         templateUrl: 'group.html',
         link: function(scope) {
+            // TODO delete segArr and use ngModelCtrl
             function changeArr(arr, opt) {
                 try {
                     scope.digits = segment.arrToSegGroup(arr, opt);
@@ -32,6 +33,7 @@ function segDigitGroupDirective(segment){
             scope.$watch('segArr', function(arr){
                 changeArr(arr, opt);
             });
+            
             
             
             var optionWatchOff = scope.$watchCollection('segOptions', function(newOpt){

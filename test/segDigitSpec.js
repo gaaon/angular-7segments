@@ -51,7 +51,7 @@ describe('segDigit directive', function(){
             $rootScope.$apply();
             
             
-            var g = el.children().children().children().eq(1);
+            var g = el.children().children().eq(1);
             expect(g.children().length).to.equal(8);
             
             var arr = segment.segNumToArr($scope.value);

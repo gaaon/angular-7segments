@@ -1,7 +1,4 @@
-<div class="seven-seg-digit-wrapper" 
-    data-ng-style="wrapperStyle" 
-    data-ng-repeat="dig in digits track by $index" 
-    
-    seg-digit 
-    data-ng-model="dig"
-    seg-digit-options="segDigitOptions"></div>
+<div data-ng-repeat="dig in digits track by $index" 
+    seg-digit data-ng-model="dig"
+    seg-digit-options="segDigitOptions">
+</div>

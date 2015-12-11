@@ -27,7 +27,7 @@ gulp.task('concat:source', ['template:source'], function(){
             'src/common/*.js',
             'src/**/!(public|template)*.js',
             'src/public.js',
-            'src/template/template.js'
+            'dist/template.js'
         ])
         .pipe($.insert.append('\n\n'))                  // insert spaces between source files
         .pipe($.concat('angular-7segments.js'))              // concat into one file
@@ -76,7 +76,7 @@ gulp.task('template:source', function(){
             module: 'wo.7segments'
         }))
         .pipe($.insert.prepend('/*global angular*/\n'))
-        .pipe(gulp.dest('./src/template'));
+        .pipe(gulp.dest('./dist'));
 });
 
 

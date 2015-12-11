@@ -5,13 +5,13 @@ function segmentProvider(){
     
     this.defaults = {
         digit: {
+            width: 75,
+            height: 150,
             onClass: 'seven-seg-on',
             digitClass: 'seven-seg-digit'
         },
         
         group: {
-            width: 75,
-            height: 150,
             align: undefined,   // align right
             watch: undefined
         }

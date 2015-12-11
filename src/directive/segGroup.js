@@ -38,10 +38,6 @@ function segDigitGroupDirective(segment){
                 angular.extend(opt, newOpt);
                 changeArr(scope.segArr, opt);
                 
-                scope.wrapperStyle = {
-                    width: opt.width+'px',
-                    height: opt.height+'px'
-                };
                 
                 if(!opt.watch) optionWatchOff();
             });

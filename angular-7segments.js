@@ -169,6 +169,10 @@ function segDigitDirective(segment){
         templateUrl: 'digit.html',
         link: function(scope, el, attr, ngModelCtrl) {
             scope.opt = angular.extend({}, segment.defaults.digit, scope.segDigitOptions);
+            
+            el.addClass('seven-seg-digit-wrapper');
+            el.css('width', scope.opt.width+'px');
+            el.css('height', scope.opt.height+'px');
         }
     };
     
@@ -217,10 +221,6 @@ function segDigitGroupDirective(segment){
                 angular.extend(opt, newOpt);
                 changeArr(scope.segArr, opt);
                 
-                scope.wrapperStyle = {
-                    width: opt.width+'px',
-                    height: opt.height+'px'
-                };
                 
                 if(!opt.watch) optionWatchOff();
             });
@@ -267,13 +267,13 @@ function segmentProvider(){
     
     this.defaults = {
         digit: {
+            width: 75,
+            height: 150,
             onClass: 'seven-seg-on',
             digitClass: 'seven-seg-digit'
         },
         
         group: {
-            width: 75,
-            height: 150,
             align: undefined,   // align right
             watch: undefined
         }
@@ -402,6 +402,6 @@ var app = angular.module('wo.7segments', []) /*jshint ignore:line*/
 
 /*global angular*/
 angular.module("wo.7segments").run(["$templateCache", function($templateCache) {$templateCache.put("digit.html","<svg data-ng-class=\"opt.digitClass\" viewBox=\"0 0 57 80\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" focusable=\"false\"> <defs> <polyline id=\"h-part\" points=\"11 0, 37 0, 42 5, 37 10, 11 10, 6 5\"></polyline> <polyline id=\"v-part\" points=\"0 11, 5 6, 10 11, 10 34, 5 39, 0 34\"></polyline> </defs> <g> <use xlink:href=\"#h-part\" x=\"0\" y=\"0\" data-ng-class=\"(segVal | bitAnd : 1) && opt.onClass\"></use> <use xlink:href=\"#v-part\" x=\"-48\" y=\"0\" transform=\"scale(-1,1)\" data-ng-class=\"(segVal | bitAnd : 2)  && opt.onClass\"></use> <use xlink:href=\"#v-part\" x=\"-48\" y=\"-80\" transform=\"scale(-1,-1)\" data-ng-class=\"(segVal | bitAnd : 4) && opt.onClass\"></use> <use xlink:href=\"#h-part\" x=\"0\" y=\"70\" data-ng-class=\"(segVal | bitAnd : 8) && opt.onClass\"></use> <use xlink:href=\"#v-part\" x=\"0\" y=\"-80\" transform=\"scale(1,-1)\" data-ng-class=\"(segVal | bitAnd : 16) && opt.onClass\"></use> <use xlink:href=\"#v-part\" x=\"0\" y=\"0\" data-ng-class=\"(segVal | bitAnd : 32) && opt.onClass\"></use> <use xlink:href=\"#h-part\" x=\"0\" y=\"35\" data-ng-class=\"(segVal | bitAnd : 64) && opt.onClass\"></use> <circle cx=\"52\" cy=\"75\" r=\"5\" data-ng-class=\"(segVal | bitAnd : 128) && opt.onClass\"></circle> </g> </svg>");
-$templateCache.put("group.html","<div class=\"seven-seg-digit-wrapper\" data-ng-style=\"wrapperStyle\" data-ng-repeat=\"dig in digits track by $index\" seg-digit data-ng-model=\"dig\" seg-digit-options=\"segDigitOptions\"></div>");}]);
+$templateCache.put("group.html","<div data-ng-repeat=\"dig in digits track by $index\" seg-digit data-ng-model=\"dig\" seg-digit-options=\"segDigitOptions\"> </div>");}]);
 
 })(window, window.angular);

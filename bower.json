@@ -1,6 +1,6 @@
 {
   "name": "angular-7segments",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Angular plugin for displaying 7segments",
   "main": "angular-7segments.js",
   "ignore": [

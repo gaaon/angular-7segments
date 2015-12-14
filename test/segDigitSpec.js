@@ -27,6 +27,35 @@ describe('segDigit directive', function(){
         document.querySelector('body').removeChild(tempEl);
     });
     
+    
+    it('should have a "seven-seg-digit-wrapper" class.', function(){
+        var $scope = $rootScope.$new();
+        
+        $scope.value = 0;
+        
+        var elStr = '<div seg-digit data-ng-model="value"> </div>';
+        var el = $compile(elStr)($scope);
+        
+        $rootScope.$apply();
+        
+        expect(el[0]).to.have.class('seven-seg-digit-wrapper');
+    });
+    
+    
+    it('should have a default width and height if seg-digit-options not provided.', function(){
+         var $scope = $rootScope.$new();
+        
+        $scope.value = 0;
+        
+        var elStr = '<div seg-digit data-ng-model="value"> </div>';
+        var el = $compile(elStr)($scope);
+        
+        $rootScope.$apply();
+        
+        expect(el[0]).to.have.attr('style');
+    });
+    
+    
     it('should throw an error if there is no ngModel attribute.', function(){
         var $scope = $rootScope.$new();
         
@@ -38,6 +67,8 @@ describe('segDigit directive', function(){
         expect(linkFn.bind(undefined, $scope)).to.throw(Error);
         
     });
+    
+    
     
     it('should have children in element if there is a ngModel attribute', function(){
         for(var val = 0 ; val < 256 ; val++) {
@@ -66,6 +97,7 @@ describe('segDigit directive', function(){
             el.remove();
         }
     });
+    
     
     
     it('should detect change of ngModel.', function(){

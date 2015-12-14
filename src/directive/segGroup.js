@@ -18,8 +18,10 @@ function segDigitGroupDirective(segment){
             'segArr': '=ngModel'
         },
         templateUrl: 'group.html',
-        link: function(scope) {
+        link: function(scope, el) {
             // TODO delete segArr and use ngModelCtrl
+            el.addClass('seven-seg-group');
+            
             function changeArr(arr, opt) {
                 try {
                     scope.digits = segment.arrToSegGroup(arr, opt);

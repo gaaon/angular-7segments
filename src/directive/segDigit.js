@@ -6,7 +6,7 @@
  * 
  */
 
-function segDigitDirective(segment){
+function segDigitDirective(segment, segPoints){
     var directiveDefinitionObject = {
         strict: 'E',
         require: '^ngModel',
@@ -17,6 +17,7 @@ function segDigitDirective(segment){
         templateUrl: 'digit.html',
         link: function(scope, el, attr, ngModelCtrl) {
             scope.opt = angular.extend({}, segment.defaults.digit, scope.segDigitOptions);
+            scope.points = segPoints;
             
             el.addClass('seven-seg-digit-wrapper');
             el.css('width', scope.opt.width+'px');

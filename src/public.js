@@ -8,9 +8,12 @@ var app = angular.module('wo.7segments', []) /*jshint ignore:line*/
 .directive('segDigit', segDigitDirective)
 .directive('segGroup', segDigitGroupDirective)
 .value('segMap', segMap)
+.value('segPoints', segPoints)
 .filter('bitAnd', bitAnd)
+.filter('bitAndWithBitwise', bitAndWithBitwise)
 .provider('segment', segmentProvider)
 .run(function($document) {
+    // this will replace after gulp-angular-css-loader is completed
     var head = $document[0].querySelector('head');
     var style = $document[0].createElement('style');
     

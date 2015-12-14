@@ -9,6 +9,8 @@
         "segDigitGroupDirective": false,
         "segMap": true,
         "bitAnd": false,
-        "segmentProvider": false
+        "segmentProvider": false,
+        "bitAndWithBitwise": false,
+        "segPoints": true
     }
 }

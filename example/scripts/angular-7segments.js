@@ -158,7 +158,7 @@ function minErr(module, ErrorConstructor) {
  * 
  */
 
-function segDigitDirective(segment){
+function segDigitDirective(segment, segPoints){
     var directiveDefinitionObject = {
         strict: 'E',
         require: '^ngModel',
@@ -169,6 +169,7 @@ function segDigitDirective(segment){
         templateUrl: 'digit.html',
         link: function(scope, el, attr, ngModelCtrl) {
             scope.opt = angular.extend({}, segment.defaults.digit, scope.segDigitOptions);
+            scope.points = segPoints;
             
             el.addClass('seven-seg-digit-wrapper');
             el.css('width', scope.opt.width+'px');
@@ -178,7 +179,7 @@ function segDigitDirective(segment){
     
     return directiveDefinitionObject;
 }
-segDigitDirective.$inject = ["segment"];
+segDigitDirective.$inject = ["segment", "segPoints"];
 
 
 /**
@@ -243,6 +244,13 @@ function bitAnd(){
 }
 
 
+function bitAndWithBitwise() {
+    return function(input, pos) {
+        return input & (1 << pos);
+    };
+}
+
+
 var segMap = {
     '1': 6,
     '2': 91,
@@ -262,6 +270,17 @@ var segMap = {
     'E': 121,
     'G': 61
 }; 
+
+
+var segPoints = [
+    "11 0, 37 0, 42 5, 37 10, 11 10, 6 5",      //1
+    "38 11, 43 6, 48 11, 48 34, 43 39, 38 34",  //2
+    "38 46, 43 41, 48 46, 48 69, 43 74, 38 69", //4
+    "11 70, 37 70, 42 75, 37 80, 11 80, 6 75",  //8
+    "0 46, 5 41, 10 46, 10 69, 5 74, 0 69",     //16
+    "0 11, 5 6, 10 11, 10 34, 5 39, 0 34",      //32
+    "11 35, 37 35, 42 40, 37 45, 11 45, 6 40"   //64
+];
 
 
 var segMinErr = minErr('segment');
@@ -390,9 +409,12 @@ var app = angular.module('wo.7segments', []) /*jshint ignore:line*/
 .directive('segDigit', segDigitDirective)
 .directive('segGroup', segDigitGroupDirective)
 .value('segMap', segMap)
+.value('segPoints', segPoints)
 .filter('bitAnd', bitAnd)
+.filter('bitAndWithBitwise', bitAndWithBitwise)
 .provider('segment', segmentProvider)
 .run(["$document", function($document) {
+    // this will replace after gulp-angular-css-loader is completed
     var head = $document[0].querySelector('head');
     var style = $document[0].createElement('style');
     
@@ -405,7 +427,7 @@ var app = angular.module('wo.7segments', []) /*jshint ignore:line*/
 
 
 /*global angular*/
-angular.module("wo.7segments").run(["$templateCache", function($templateCache) {$templateCache.put("digit.html","<svg data-ng-class=\"opt.digitClass\" viewBox=\"0 0 57 80\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" focusable=\"false\"> <defs> <polyline id=\"h-part\" points=\"11 0, 37 0, 42 5, 37 10, 11 10, 6 5\"></polyline> <polyline id=\"v-part\" points=\"0 11, 5 6, 10 11, 10 34, 5 39, 0 34\"></polyline> </defs> <g> <use xlink:href=\"#h-part\" x=\"0\" y=\"0\" data-ng-class=\"(segVal | bitAnd : 1) && opt.onClass\"></use> <use xlink:href=\"#v-part\" x=\"-48\" y=\"0\" transform=\"scale(-1,1)\" data-ng-class=\"(segVal | bitAnd : 2)  && opt.onClass\"></use> <use xlink:href=\"#v-part\" x=\"-48\" y=\"-80\" transform=\"scale(-1,-1)\" data-ng-class=\"(segVal | bitAnd : 4) && opt.onClass\"></use> <use xlink:href=\"#h-part\" x=\"0\" y=\"70\" data-ng-class=\"(segVal | bitAnd : 8) && opt.onClass\"></use> <use xlink:href=\"#v-part\" x=\"0\" y=\"-80\" transform=\"scale(1,-1)\" data-ng-class=\"(segVal | bitAnd : 16) && opt.onClass\"></use> <use xlink:href=\"#v-part\" x=\"0\" y=\"0\" data-ng-class=\"(segVal | bitAnd : 32) && opt.onClass\"></use> <use xlink:href=\"#h-part\" x=\"0\" y=\"35\" data-ng-class=\"(segVal | bitAnd : 64) && opt.onClass\"></use> <circle cx=\"52\" cy=\"75\" r=\"5\" data-ng-class=\"(segVal | bitAnd : 128) && opt.onClass\"></circle> </g> </svg>");
+angular.module("wo.7segments").run(["$templateCache", function($templateCache) {$templateCache.put("digit.html","<svg data-ng-class=\"opt.digitClass\" viewBox=\"0 0 57 80\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" focusable=\"false\"> <g> <polyline data-ng-repeat=\"point in points\" ng-attr-points=\"{{point}}\" data-ng-class=\"(segVal | bitAndWithBitwise : $index) && opt.onClass\"></polyline> <circle cx=\"52\" cy=\"75\" r=\"5\" data-ng-class=\"(segVal | bitAnd : 128) && opt.onClass\"></circle> </g> </svg>");
 $templateCache.put("group.html","<div data-ng-repeat=\"dig in digits track by $index\" seg-digit data-ng-model=\"dig\" seg-digit-options=\"segDigitOptions\"> </div>");}]);
 
 })(window, window.angular);

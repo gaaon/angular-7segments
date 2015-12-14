@@ -6,6 +6,7 @@
     "globals": {
         "expect": false,
         "inject": false,
-        "module": false
+        "module": false,
+        "angular": false
     }
 }

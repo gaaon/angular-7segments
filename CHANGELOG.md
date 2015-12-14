@@ -1,8 +1,12 @@
 # ()
 
+## Features
+- **segPoints:** Expose segment part coordinates by making them as service, so allow to customize coords
+
 ## Breaking Changes
 - **angular:** Support angular version 1.5.0-rc.0
 - **segGroup:** Move properties 'height', 'width' from segOptions of segGroup to segDigitOptions of segGroup
+
 
 <a name="0.1.0"></a>
 # 0.1.0 (2015-12-09)

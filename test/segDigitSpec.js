@@ -1,9 +1,3 @@
-/* global
-    inject: true,
-    expect: true,
-    angular: true
-*/
-
 describe('segDigit directive', function(){
     var $compile, $rootScope, segment, tempEl;
     

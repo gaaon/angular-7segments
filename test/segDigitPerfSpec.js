@@ -1,4 +1,4 @@
-describe('segDigitPerf', function(){
+describe.skip('segDigitPerf', function(){
     var $compile, $rootScope, segment, tempEl;
     
     beforeEach(function() { 
@@ -21,7 +21,7 @@ describe('segDigitPerf', function(){
         document.querySelector('body').removeChild(tempEl);
     });
     
-    it.only('should detect the change.', function(){
+    it('should detect the change.', function(){
         var $scope = $rootScope.$new();
         
         $scope.value = 0;

@@ -131,6 +131,58 @@ app.controlller('styleCtrl', function($scope){
     <!-- background color is white and light-on part color is black -->
 </div>
 ```
+
+### Custom pattern
+Allow to add custom segment pattern by inserting it into segMap
+```javascript
+app.controller('patternCtrl', function($scope, segment){
+    var copy = angular.copy(segment.defaults.group.map);
+    copy['r'] = segment.arrToSegNum([0, 0, 0, 0, 1, 0, 1]);
+    copy['o'] = segment.arrToSegNum([0, 0, 1, 1, 1, 0, 1]);
+    copy['b'] = segment.arrToSegNum([0, 0, 1 ,1 ,1, 1, 1]);
+    
+    $scope.value = 'bro';
+    
+    $scope.options = {
+        map: copy
+    }
+});
+```
+
+```html
+<div data-ng-controller="patternCtrl">
+    <div seg-group data-ng-model="value" seg-options="options"></div>
+    <!-- [r][o][b] -->
+    <!-- They are not provided basically -->
+</div>
+```
+### Custom shape
+Allow to modify segment part coordinates by updating segPoints
+```javascript
+app.controller('shapeCtrl', function($scope, segment) {
+    var copy = angular.copy(segment.defaults.digit.points);
+    
+    copy[1] = "38 11, 43 6, 48 11, 48 39, 43 39, 38 34";
+    copy[2] = "38 46, 43 41, 48 41, 48 69, 43 74, 38 69";
+    
+    copy[4] = "0 41, 5 41, 10 46, 10 69, 5 74, 0 69";
+    copy[5] = "0 11, 5 6, 10 11, 10 34, 5 39, 0 39";
+    
+    $scope.value = '0123';
+    
+    $scope.digitOptions = {
+        points: copy
+    };
+});
+```
+
+```html
+<div data-ng-controller="shapeCtrl">
+    <div seg-group data-ng-model="value" seg-digit-options="digitOptions"></div>
+    <!-- [0][1][2][3] -->
+    <!-- It has right angle at middle part -->
+</div>
+```
 <a name="license"> </a>
 ## LICENSE
 [MIT](LICENSE)

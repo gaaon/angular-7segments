@@ -8,7 +8,7 @@
 
 var segGroupMinErr = minErr('segGroup');
 
-function segDigitGroupDirective(segment){
+function segGroupDirective(segment){
     var directiveDefinitionObject = {
         strict: 'E',
         require: 'ngModel',
@@ -30,8 +30,7 @@ function segDigitGroupDirective(segment){
                 }
             }
             
-            var opt = angular.copy(segment.defaults.group);
-            
+            var opt = angular.extend({}, segment.defaults.group, scope.segDigitOptions);
             scope.$watch('segArr', function(arr){
                 changeArr(arr, opt);
             });

@@ -3,7 +3,7 @@
     
       
     <g>
-        <polyline data-ng-repeat="point in points" ng-attr-points="{{point}}" 
+        <polyline data-ng-repeat="point in ::points" ng-attr-points="{{point}}" 
             data-ng-class="(segVal | bitAndWithBitwise : $index) && opt.onClass"></polyline>
     
         <circle cx="52" cy="75" r="5"  

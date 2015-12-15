@@ -151,29 +151,6 @@ function minErr(module, ErrorConstructor) {
 
 
 /**
- * https://github.com/tadeuszwojcik/angular-once
- * Modify some codes
- */
-
-function once() {
-    return function (scope, element, attrs) {
-        console.log(attrs);
-        angular.forEach(attrs, function (attr, attrName) {
-            
-            if (!/^onceAttr[A-Z]/.test(attrName)) return;
-            
-            var dashedName = attrName.replace(/[A-Z]/g, function (match) { return '-' + match.toLowerCase(); });
-            
-            var name = dashedName.substr(10);
-            
-            element.attr(name, attr);
-            
-        });
-    };
-}
-
-
-/**
  * @ngdoc directive
  * 
  * @name wo.7segments.directive:segDigit
@@ -238,8 +215,7 @@ function segGroupDirective(segment){
                 }
             }
             
-            var opt = angular.copy(segment.defaults.group);
-            
+            var opt = angular.extend({}, segment.defaults.group, scope.segDigitOptions);
             scope.$watch('segArr', function(arr){
                 changeArr(arr, opt);
             });
@@ -346,6 +322,8 @@ function segmentProvider(){
                     throw new segMinErr('badsize', 'The size \'{0}\' cannot be negative.', opt.size);
                 }
                 
+                opt.map || (opt.map = segMap);
+                
                 var newArr = [], cnt = 0;
                 var size = opt.size === void 0 ? arr.length : opt.size, i = 0;
                 
@@ -432,7 +410,6 @@ function segmentProvider(){
 var app = angular.module('wo.7segments', []) /*jshint ignore:line*/
 .directive('segDigit', segDigitDirective)
 .directive('segGroup', segGroupDirective)
-.directive('once', once)
 .filter('bitAnd', bitAnd)
 .filter('bitAndWithBitwise', bitAndWithBitwise)
 .provider('segment', segmentProvider)

@@ -6,9 +6,7 @@
  */
 var app = angular.module('wo.7segments', []) /*jshint ignore:line*/
 .directive('segDigit', segDigitDirective)
-.directive('segGroup', segDigitGroupDirective)
-.value('segMap', segMap)
-.value('segPoints', segPoints)
+.directive('segGroup', segGroupDirective)
 .filter('bitAnd', bitAnd)
 .filter('bitAndWithBitwise', bitAndWithBitwise)
 .provider('segment', segmentProvider)

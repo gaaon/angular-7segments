@@ -6,11 +6,9 @@
         "angular": false,
         "minErr": false,
         "segDigitDirective": false,
-        "segDigitGroupDirective": false,
-        "segMap": true,
+        "segGroupDirective": false,
         "bitAnd": false,
         "segmentProvider": false,
-        "bitAndWithBitwise": false,
-        "segPoints": true
+        "bitAndWithBitwise": false
     }
 }

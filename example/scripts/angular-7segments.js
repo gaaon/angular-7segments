@@ -151,6 +151,29 @@ function minErr(module, ErrorConstructor) {
 
 
 /**
+ * https://github.com/tadeuszwojcik/angular-once
+ * Modify some codes
+ */
+
+function once() {
+    return function (scope, element, attrs) {
+        console.log(attrs);
+        angular.forEach(attrs, function (attr, attrName) {
+            
+            if (!/^onceAttr[A-Z]/.test(attrName)) return;
+            
+            var dashedName = attrName.replace(/[A-Z]/g, function (match) { return '-' + match.toLowerCase(); });
+            
+            var name = dashedName.substr(10);
+            
+            element.attr(name, attr);
+            
+        });
+    };
+}
+
+
+/**
  * @ngdoc directive
  * 
  * @name wo.7segments.directive:segDigit
@@ -158,7 +181,7 @@ function minErr(module, ErrorConstructor) {
  * 
  */
 
-function segDigitDirective(segment, segPoints){
+function segDigitDirective(segment){
     var directiveDefinitionObject = {
         strict: 'E',
         require: '^ngModel',
@@ -168,8 +191,9 @@ function segDigitDirective(segment, segPoints){
         },
         templateUrl: 'digit.html',
         link: function(scope, el, attr, ngModelCtrl) {
+            
             scope.opt = angular.extend({}, segment.defaults.digit, scope.segDigitOptions);
-            scope.points = segPoints;
+            scope.points = scope.opt.points;
             
             el.addClass('seven-seg-digit-wrapper');
             el.css('width', scope.opt.width+'px');
@@ -179,7 +203,7 @@ function segDigitDirective(segment, segPoints){
     
     return directiveDefinitionObject;
 }
-segDigitDirective.$inject = ["segment", "segPoints"];
+segDigitDirective.$inject = ["segment"];
 
 
 /**
@@ -192,7 +216,7 @@ segDigitDirective.$inject = ["segment", "segPoints"];
 
 var segGroupMinErr = minErr('segGroup');
 
-function segDigitGroupDirective(segment){
+function segGroupDirective(segment){
     var directiveDefinitionObject = {
         strict: 'E',
         require: 'ngModel',
@@ -234,7 +258,7 @@ function segDigitGroupDirective(segment){
     
     return directiveDefinitionObject;
 }
-segDigitGroupDirective.$inject = ["segment"];
+segGroupDirective.$inject = ["segment"];
 
 
 function bitAnd(){
@@ -251,58 +275,58 @@ function bitAndWithBitwise() {
 }
 
 
-var segMap = {
-    '1': 6,
-    '2': 91,
-    '3': 79,
-    '4': 102,
-    '5': 109,
-    '6': 125,
-    '7': 39,
-    '8': 127,
-    '9': 111,
-    '0': 63,
-    '-': 64,
-    '_': 8,
-    '.': 128,
-    ' ': 0,
-    'S': 109,
-    'E': 121,
-    'G': 61
-}; 
-
-
-var segPoints = [
-    "11 0, 37 0, 42 5, 37 10, 11 10, 6 5",      //1
-    "38 11, 43 6, 48 11, 48 34, 43 39, 38 34",  //2
-    "38 46, 43 41, 48 46, 48 69, 43 74, 38 69", //4
-    "11 70, 37 70, 42 75, 37 80, 11 80, 6 75",  //8
-    "0 46, 5 41, 10 46, 10 69, 5 74, 0 69",     //16
-    "0 11, 5 6, 10 11, 10 34, 5 39, 0 34",      //32
-    "11 35, 37 35, 42 40, 37 45, 11 45, 6 40"   //64
-];
-
-
 var segMinErr = minErr('segment');
 
 function segmentProvider(){
     var $provider = this;
+    
+    var segMap = {
+        '1': 6,
+        '2': 91,
+        '3': 79,
+        '4': 102,
+        '5': 109,
+        '6': 125,
+        '7': 39,
+        '8': 127,
+        '9': 111,
+        '0': 63,
+        '-': 64,
+        '_': 8,
+        '.': 128,
+        ' ': 0,
+        'S': 109,
+        'E': 121,
+        'G': 61
+    }; 
+    
+    var segPoints = [
+        "11 0, 37 0, 42 5, 37 10, 11 10, 6 5",      //1
+        "38 11, 43 6, 48 11, 48 34, 43 39, 38 34",  //2
+        "38 46, 43 41, 48 46, 48 69, 43 74, 38 69", //4
+        "11 70, 37 70, 42 75, 37 80, 11 80, 6 75",  //8
+        "0 46, 5 41, 10 46, 10 69, 5 74, 0 69",     //16
+        "0 11, 5 6, 10 11, 10 34, 5 39, 0 34",      //32
+        "11 35, 37 35, 42 40, 37 45, 11 45, 6 40"   //64
+    ];
     
     this.defaults = {
         digit: {
             width: 75,
             height: 150,
             onClass: 'seven-seg-on',
-            digitClass: 'seven-seg-digit'
+            digitClass: 'seven-seg-digit',
+            points: segPoints
         },
         
         group: {
             align: undefined,   // align right
-            watch: undefined
+            watch: undefined,
+            map: segMap
         }
     };
     
-    this.$get = ["segMap", function(segMap){
+    this.$get = function(){
         
         function segmentService() {
             var that = this;
@@ -331,12 +355,12 @@ function segmentProvider(){
                     if( that.isDot(item) ){ // when item is dot
                         var prev = arr[i-1];
                         
-                        if( prev === void 0 || that.isDot(prev) ) newArr[cnt] = segMap['.'];
-                        else newArr[--cnt] |= segMap['.'];
+                        if( prev === void 0 || that.isDot(prev) ) newArr[cnt] = opt.map['.'];
+                        else newArr[--cnt] |= opt.map['.'];
                     }
                     
                     else if( angular.isString(item) ) {
-                        newArr[cnt] = segMap[item];
+                        newArr[cnt] = opt.map[item];
                     }
                     
                     else if( angular.isNumber(item) ) {
@@ -347,7 +371,7 @@ function segmentProvider(){
                         throw new segMinErr('baditemtype', 'The type \'{0}\' is not supported.', (typeof item));
                     }
                 }
-                if( that.isDot(arr[i]) ) newArr[cnt-1] |= segMap['.'];
+                if( that.isDot(arr[i]) ) newArr[cnt-1] |= opt.map['.'];
                 
                 size = opt.size === void 0 ? cnt : opt.size;
                 
@@ -395,7 +419,7 @@ function segmentProvider(){
         }
 
         return new segmentService();
-    }];
+    };
 }
 
 
@@ -407,9 +431,8 @@ function segmentProvider(){
  */
 var app = angular.module('wo.7segments', []) /*jshint ignore:line*/
 .directive('segDigit', segDigitDirective)
-.directive('segGroup', segDigitGroupDirective)
-.value('segMap', segMap)
-.value('segPoints', segPoints)
+.directive('segGroup', segGroupDirective)
+.directive('once', once)
 .filter('bitAnd', bitAnd)
 .filter('bitAndWithBitwise', bitAndWithBitwise)
 .provider('segment', segmentProvider)
@@ -427,7 +450,7 @@ var app = angular.module('wo.7segments', []) /*jshint ignore:line*/
 
 
 /*global angular*/
-angular.module("wo.7segments").run(["$templateCache", function($templateCache) {$templateCache.put("digit.html","<svg data-ng-class=\"opt.digitClass\" viewBox=\"0 0 57 80\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" focusable=\"false\"> <g> <polyline data-ng-repeat=\"point in points\" ng-attr-points=\"{{point}}\" data-ng-class=\"(segVal | bitAndWithBitwise : $index) && opt.onClass\"></polyline> <circle cx=\"52\" cy=\"75\" r=\"5\" data-ng-class=\"(segVal | bitAnd : 128) && opt.onClass\"></circle> </g> </svg>");
+angular.module("wo.7segments").run(["$templateCache", function($templateCache) {$templateCache.put("digit.html","<svg data-ng-class=\"opt.digitClass\" viewBox=\"0 0 57 80\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" focusable=\"false\"> <g> <polyline data-ng-repeat=\"point in ::points\" ng-attr-points=\"{{point}}\" data-ng-class=\"(segVal | bitAndWithBitwise : $index) && opt.onClass\"></polyline> <circle cx=\"52\" cy=\"75\" r=\"5\" data-ng-class=\"(segVal | bitAnd : 128) && opt.onClass\"></circle> </g> </svg>");
 $templateCache.put("group.html","<div data-ng-repeat=\"dig in digits track by $index\" seg-digit data-ng-model=\"dig\" seg-digit-options=\"segDigitOptions\"> </div>");}]);
 
 })(window, window.angular);
